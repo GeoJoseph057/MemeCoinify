@@ -5,35 +5,8 @@ const MemeFeed = ({ memes: propMemes, onNavigateToEditor, onNavigateHome }) => {
   const [memes, setMemes] = useState([]);
 
   useEffect(() => {
-    // Use memes from props if available, otherwise load from localStorage
-    if (propMemes && propMemes.length > 0) {
-      setMemes(propMemes);
-    } else {
-      // Mock data for demo since localStorage isn't available
-      const mockMemes = [
-        {
-          id: '1',
-          creator: 'MemeKing',
-          createdAt: '2024-06-25',
-          value: 150,
-          image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjOEI1Q0Y2Ii8+Cjx0ZXh0IHg9IjIwMCIgeT0iMTUwIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjI0Ij5TYW1wbGUgTWVtZTwvdGV4dD4KPC9zdmc+',
-          topText: 'When you finally',
-          bottomText: 'Understand React hooks',
-          likes: 42
-        },
-        {
-          id: '2',
-          creator: 'CryptoMemer',
-          createdAt: '2024-06-24',
-          value: 250,
-          image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjM0I4MkY2Ii8+Cjx0ZXh0IHg9IjIwMCIgeT0iMTUwIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjI0Ij5Bbm90aGVyIE1lbWU8L3RleHQ+Cjwvc3ZnPg==',
-          topText: 'MemeCoinify be like',
-          bottomText: 'Making memes profitable',
-          likes: 78
-        }
-      ];
-      setMemes(mockMemes);
-    }
+    // No mock data; start with an empty array if no propMemes
+    setMemes([]);
   }, [propMemes]);
 
   const handleLike = (memeId) => {
@@ -62,7 +35,7 @@ const MemeFeed = ({ memes: propMemes, onNavigateToEditor, onNavigateHome }) => {
   const styles = {
     container: {
       minHeight: '100vh',
-      background: 'linear-gradient(135deg, #581c87 0%, #1e3a8a 50%, #312e81 100%)',
+      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
       padding: '24px'
     },
     maxWidth: {
@@ -327,48 +300,46 @@ const MemeFeed = ({ memes: propMemes, onNavigateToEditor, onNavigateHome }) => {
   if (memes.length === 0) {
     return (
       <div style={styles.container}>
-        <div style={styles.maxWidth}>
-          <div style={styles.headerContent}>
-            <h1 style={styles.title}>
-              <TrendingUp size={32} style={{color: '#fbbf24'}} />
-              Meme Feed
-            </h1>
-            <div style={styles.buttonContainer}>
-              <button
-                onClick={goHome}
-                style={styles.homeButton}
-                onMouseOver={(e) => e.target.style.background = '#1d4ed8'}
-                onMouseOut={(e) => e.target.style.background = '#2563eb'}
-              >
-                <Home size={24} /> Home
-              </button>
-              <button
-                onClick={goToEditor}
-                style={styles.createButton}
-                onMouseOver={(e) => e.target.style.transform = 'scale(1.05)'}
-                onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
-              >
-                <Palette size={24} /> Create Meme
-              </button>
-            </div>
-          </div>
-
-          <div style={styles.emptyState}>
-            <div style={{fontSize: '4rem', marginBottom: '24px'}}>🎭</div>
-            <h2 style={styles.emptyTitle}>No Memes Yet!</h2>
-            <p style={styles.emptyText}>
-              Be the first to create and mint a meme. Start building the meme economy!
-            </p>
+        <div style={styles.headerContent}>
+          <h1 style={styles.title}>
+            <TrendingUp size={32} style={{color: '#fbbf24'}} />
+            Meme Feed
+          </h1>
+          <div style={styles.buttonContainer}>
+            <button
+              onClick={goHome}
+              style={styles.homeButton}
+              onMouseOver={(e) => e.target.style.background = '#1d4ed8'}
+              onMouseOut={(e) => e.target.style.background = '#2563eb'}
+            >
+              <Home size={24} /> Home
+            </button>
             <button
               onClick={goToEditor}
-              style={styles.emptyButton}
+              style={styles.createButton}
               onMouseOver={(e) => e.target.style.transform = 'scale(1.05)'}
               onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
             >
-              <Palette size={24} />
-              Create Your First Meme
+              <Palette size={24} /> Create Meme
             </button>
           </div>
+        </div>
+
+        <div style={styles.emptyState}>
+          <div style={{fontSize: '4rem', marginBottom: '24px'}}>🎭</div>
+          <h2 style={styles.emptyTitle}>No Memes Yet!</h2>
+          <p style={styles.emptyText}>
+            Be the first to create and mint a meme. Start building the meme economy!
+          </p>
+          <button
+            onClick={goToEditor}
+            style={styles.emptyButton}
+            onMouseOver={(e) => e.target.style.transform = 'scale(1.05)'}
+            onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
+          >
+            <Palette size={24} />
+            Create Your First Meme
+          </button>
         </div>
       </div>
     );
@@ -376,128 +347,126 @@ const MemeFeed = ({ memes: propMemes, onNavigateToEditor, onNavigateHome }) => {
 
   return (
     <div style={styles.container}>
-      <div style={styles.maxWidth}>
-        <div style={styles.header}>
-          <div style={styles.headerContent}>
-            <h1 style={styles.title}>
-              <TrendingUp size={32} style={{color: '#fbbf24'}} />
-              Meme Feed
-            </h1>
-            <div style={styles.buttonContainer}>
+      <div style={styles.header}>
+        <div style={styles.headerContent}>
+          <h1 style={styles.title}>
+            <TrendingUp size={32} style={{color: '#fbbf24'}} />
+            Meme Feed
+          </h1>
+          <div style={styles.buttonContainer}>
+            <button
+              onClick={goHome}
+              style={styles.homeButton}
+              onMouseOver={(e) => e.target.style.background = '#1d4ed8'}
+              onMouseOut={(e) => e.target.style.background = '#2563eb'}
+            >
+              <Home size={24} /> Home
+            </button>
+            <button
+              onClick={goToEditor}
+              style={styles.createButton}
+              onMouseOver={(e) => e.target.style.transform = 'scale(1.05)'}
+              onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
+            >
+              <Palette size={24} /> Create Meme
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div style={styles.grid}>
+        {memes.map((meme) => (
+          <div
+            key={meme.id}
+            style={styles.card}
+            onMouseOver={(e) => e.target.style.boxShadow = '0 25px 50px -12px rgba(0, 0, 0, 0.4)'}
+            onMouseOut={(e) => e.target.style.boxShadow = '0 25px 50px -12px rgba(0, 0, 0, 0.25)'}
+          >
+            <div style={styles.cardHeader}>
+              <div style={styles.userInfo}>
+                <div style={styles.avatar}>
+                  {meme.creator.charAt(0).toUpperCase()}
+                </div>
+                <div>
+                  <p style={styles.userName}>{meme.creator}</p>
+                  <p style={styles.date}>
+                    {meme.createdAt ? new Date(meme.createdAt).toLocaleDateString() : '—'}
+                  </p>
+                </div>
+              </div>
+              <div style={styles.valueInfo}>
+                <p style={styles.value}>
+                  <Coins size={20} />
+                  ${meme.value}
+                </p>
+                <p style={styles.valueLabel}>Market Value</p>
+              </div>
+            </div>
+
+            <div style={styles.imageContainer}>
+              <img
+                src={meme.image}
+                alt="Meme"
+                style={styles.image}
+              />
+            </div>
+
+            {(meme.topText || meme.bottomText) && (
+              <div style={styles.textInfo}>
+                <div style={styles.textBox}>
+                  {meme.topText && (
+                    <p style={styles.textLine}>
+                      <span style={styles.textLabel}>Top:</span> {meme.topText}
+                    </p>
+                  )}
+                  {meme.bottomText && (
+                    <p style={styles.textLine}>
+                      <span style={styles.textLabel}>Bottom:</span> {meme.bottomText}
+                    </p>
+                  )}
+                </div>
+              </div>
+            )}
+
+            <div style={styles.actions}>
+              <div style={styles.actionButtons}>
+                <button
+                  onClick={() => handleLike(meme.id)}
+                  style={styles.likeButton}
+                  onMouseOver={(e) => e.target.style.transform = 'translateY(-2px)'}
+                  onMouseOut={(e) => e.target.style.transform = 'translateY(0)'}
+                >
+                  <Heart size={20} />
+                  <span>{meme.likes}</span>
+                </button>
+                <button
+                  style={styles.commentButton}
+                  onMouseOver={(e) => e.target.style.transform = 'translateY(-2px)'}
+                  onMouseOut={(e) => e.target.style.transform = 'translateY(0)'}
+                >
+                  <MessageCircle size={20} />
+                  <span>Comment</span>
+                </button>
+                <button
+                  style={styles.shareButton}
+                  onMouseOver={(e) => e.target.style.transform = 'translateY(-2px)'}
+                  onMouseOut={(e) => e.target.style.transform = 'translateY(0)'}
+                >
+                  <Share2 size={20} />
+                  <span>Share</span>
+                </button>
+              </div>
               <button
-                onClick={goHome}
-                style={styles.homeButton}
-                onMouseOver={(e) => e.target.style.background = '#1d4ed8'}
-                onMouseOut={(e) => e.target.style.background = '#2563eb'}
-              >
-                <Home size={24} /> Home
-              </button>
-              <button
-                onClick={goToEditor}
-                style={styles.createButton}
+                style={styles.buyButton}
                 onMouseOver={(e) => e.target.style.transform = 'scale(1.05)'}
                 onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
               >
-                <Palette size={24} /> Create Meme
+                <Coins size={16} />
+                Buy Coin
               </button>
             </div>
           </div>
-        </div>
-
-        <div style={styles.grid}>
-          {memes.map((meme) => (
-            <div
-              key={meme.id}
-              style={styles.card}
-              onMouseOver={(e) => e.target.style.boxShadow = '0 25px 50px -12px rgba(0, 0, 0, 0.4)'}
-              onMouseOut={(e) => e.target.style.boxShadow = '0 25px 50px -12px rgba(0, 0, 0, 0.25)'}
-            >
-              <div style={styles.cardHeader}>
-                <div style={styles.userInfo}>
-                  <div style={styles.avatar}>
-                    {meme.creator.charAt(0).toUpperCase()}
-                  </div>
-                  <div>
-                    <p style={styles.userName}>{meme.creator}</p>
-                    <p style={styles.date}>
-                      {meme.createdAt ? new Date(meme.createdAt).toLocaleDateString() : '—'}
-                    </p>
-                  </div>
-                </div>
-                <div style={styles.valueInfo}>
-                  <p style={styles.value}>
-                    <Coins size={20} />
-                    ${meme.value}
-                  </p>
-                  <p style={styles.valueLabel}>Market Value</p>
-                </div>
-              </div>
-
-              <div style={styles.imageContainer}>
-                <img
-                  src={meme.image}
-                  alt="Meme"
-                  style={styles.image}
-                />
-              </div>
-
-              {(meme.topText || meme.bottomText) && (
-                <div style={styles.textInfo}>
-                  <div style={styles.textBox}>
-                    {meme.topText && (
-                      <p style={styles.textLine}>
-                        <span style={styles.textLabel}>Top:</span> {meme.topText}
-                      </p>
-                    )}
-                    {meme.bottomText && (
-                      <p style={styles.textLine}>
-                        <span style={styles.textLabel}>Bottom:</span> {meme.bottomText}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              )}
-
-              <div style={styles.actions}>
-                <div style={styles.actionButtons}>
-                  <button
-                    onClick={() => handleLike(meme.id)}
-                    style={styles.likeButton}
-                    onMouseOver={(e) => e.target.style.transform = 'translateY(-2px)'}
-                    onMouseOut={(e) => e.target.style.transform = 'translateY(0)'}
-                  >
-                    <Heart size={20} />
-                    <span>{meme.likes}</span>
-                  </button>
-                  <button
-                    style={styles.commentButton}
-                    onMouseOver={(e) => e.target.style.transform = 'translateY(-2px)'}
-                    onMouseOut={(e) => e.target.style.transform = 'translateY(0)'}
-                  >
-                    <MessageCircle size={20} />
-                    <span>Comment</span>
-                  </button>
-                  <button
-                    style={styles.shareButton}
-                    onMouseOver={(e) => e.target.style.transform = 'translateY(-2px)'}
-                    onMouseOut={(e) => e.target.style.transform = 'translateY(0)'}
-                  >
-                    <Share2 size={20} />
-                    <span>Share</span>
-                  </button>
-                </div>
-                <button
-                  style={styles.buyButton}
-                  onMouseOver={(e) => e.target.style.transform = 'scale(1.05)'}
-                  onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
-                >
-                  <Coins size={16} />
-                  Buy Coin
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
+        ))}
       </div>
     </div>
   );

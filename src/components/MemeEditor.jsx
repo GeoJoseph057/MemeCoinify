@@ -8,7 +8,7 @@ import {
   ArrowLeft,
 } from "lucide-react";
 
-const MemeEditor = ({ onMemeCreated, onNavigateToFeed, onNavigateHome }) => {
+const MemeEditor = ({ onMemeCreated, onNavigateToFeed }) => {
   const canvasRef = useRef(null);
   const [selectedTemplate, setSelectedTemplate] = useState(null);
   const [topText, setTopText] = useState("");
@@ -20,17 +20,17 @@ const MemeEditor = ({ onMemeCreated, onNavigateToFeed, onNavigateHome }) => {
     {
       id: 1,
       name: "Drake",
-      src: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iNTAwIiBoZWlnaHQ9IjI1MCIgZmlsbD0iIzMzNzNkYyIvPgogIDxyZWN0IHk9IjI1MCIgd2lkdGg9IjUwMCIgaGVpZ2h0PSIyNTAiIGZpbGw9IiNmZjZiNmIiLz4KICA8dGV4dCB4PSIyNTAiIHk9IjEzNSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjIwIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RHJha2UgVGVtcGxhdGU8L3RleHQ+CiAgPHRleHQgeD0iMjUwIiB5PSIzODUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIyMCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkRyYWtlIFRlbXBsYXRlPC90ZXh0Pgo8L3N2Zz4K",
+      src: "/meme-templates/drake.png",
     },
     {
       id: 2,
       name: "Distracted Boyfriend",
-      src: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0iIzJkM2E4YyIvPgogIDx0ZXh0IHg9IjI1MCIgeT0iMjUwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5EaXN0cmFjdGVkIEJveWZyaWVuZDwvdGV4dD4KPC9zdmc+",
+      src: "/meme-templates/distracted-boyfriend.png",
     },
     {
       id: 3,
       name: "Woman Yelling Cat",
-      src: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iMjUwIiBoZWlnaHQ9IjUwMCIgZmlsbD0iI2ZmOWY0MyIvPgogIDxyZWN0IHg9IjI1MCIgd2lkdGg9IjI1MCIgaGVpZ2h0PSI1MDAiIGZpbGw9IiNmZmY3ZWQiLz4KICA8dGV4dCB4PSIxMjUiIHk9IjI1MCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE2IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+V29tYW48L3RleHQ+CiAgPHRleHQgeD0iMzc1IiB5PSIyNTAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNiIgZmlsbD0iYmxhY2siIHRleHQtYW5jaG9yPSJtaWRkbGUiPkNhdDwvdGV4dD4KPC9zdmc+",
+      src: "/meme-templates/woman-yelling-cat.png",
     },
   ];
 
@@ -211,19 +211,6 @@ const MemeEditor = ({ onMemeCreated, onNavigateToFeed, onNavigateHome }) => {
     }
   };
 
-  const goHome = () => {
-    if (onNavigateHome) {
-      onNavigateHome();
-    }
-  };
-
-  const goBack = () => {
-    if (onNavigateHome) {
-      onNavigateHome();
-    } else {
-      window.history.back();
-    }
-  };
 
   // Redraw when text or template changes
   useEffect(() => {
@@ -263,27 +250,6 @@ const MemeEditor = ({ onMemeCreated, onNavigateToFeed, onNavigateHome }) => {
     fontWeight: 'bold',
     color: 'white',
     margin: 0
-  };
-
-  const navButtonsStyle = {
-    display: 'flex',
-    gap: '1rem'
-  };
-
-  const navButtonStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '0.5rem',
-    padding: '0.75rem 1.5rem',
-    background: 'rgba(255, 255, 255, 0.1)',
-    backdropFilter: 'blur(10px)',
-    borderRadius: '25px',
-    border: '1px solid rgba(255, 255, 255, 0.2)',
-    color: 'white',
-    cursor: 'pointer',
-    transition: 'all 0.3s ease',
-    fontSize: '1rem',
-    fontWeight: '500'
   };
 
   const subtitleStyle = {
@@ -475,30 +441,6 @@ const MemeEditor = ({ onMemeCreated, onNavigateToFeed, onNavigateHome }) => {
           <h2 style={titleStyle}>
             🎨 Create Your Meme
           </h2>
-          <div style={navButtonsStyle}>
-            <button
-              onClick={goBack}
-              style={navButtonStyle}
-              onMouseEnter={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.2)'}
-              onMouseLeave={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.1)'}
-            >
-              <span style={{...actionIconStyle, background: 'linear-gradient(135deg, #6c757d, #495057)'}}>
-                <ArrowLeft size={20} />
-              </span>
-              Back
-            </button>
-            <button
-              onClick={goHome}
-              style={navButtonStyle}
-              onMouseEnter={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.2)'}
-              onMouseLeave={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.1)'}
-            >
-              <span style={{...actionIconStyle, background: 'linear-gradient(135deg, #667eea, #764ba2)'}}>
-                <Home size={20} />
-              </span>
-              Home
-            </button>
-          </div>
         </div>
 
         {/* Main Content */}
@@ -542,7 +484,10 @@ const MemeEditor = ({ onMemeCreated, onNavigateToFeed, onNavigateHome }) => {
                       }
                     }}
                   >
-                    {template.name}
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.75rem' }}>
+                      <img src={template.src} alt={template.name} style={{ width: '2.5rem', height: '2.5rem', borderRadius: '8px', objectFit: 'cover', boxShadow: selectedTemplate === template.src ? '0 0 0 2px #ff6b6b' : 'none' }} />
+                      {template.name}
+                    </span>
                   </button>
                 ))}
               </div>

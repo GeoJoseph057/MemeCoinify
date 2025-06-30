@@ -294,32 +294,6 @@ function App() {
   const [activeFilter, setActiveFilter] = useState('recent')
   const [memes, setMemes] = useState([])
 
-  // Load sample memes on app start
-  useEffect(() => {
-    const sampleMemes = [
-      {
-        id: 1,
-        image: 'https://via.placeholder.com/400x300/667eea/ffffff?text=Sample+Meme+1',
-        topText: 'When you finally',
-        bottomText: 'Create your first meme NFT',
-        value: 150,
-        likes: 42,
-        creator: '0x123...abc'
-      },
-      {
-        id: 2,
-        image: 'https://via.placeholder.com/400x300/764ba2/ffffff?text=Sample+Meme+2',
-        topText: 'MemeCoinify be like',
-        bottomText: 'Turn memes into money',
-        value: 250,
-        likes: 67,
-        creator: '0x456...def'
-      }
-    ]
-    setMemes(sampleMemes)
-  }, [])
-
-  // Function to add new meme
   const handleMemeCreated = (newMeme) => {
     const updatedMemes = [newMeme, ...memes]
     setMemes(updatedMemes)
