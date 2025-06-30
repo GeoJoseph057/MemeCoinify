@@ -58,42 +58,314 @@ const MemeFeed = ({ memes: propMemes, onNavigateToEditor, onNavigateHome }) => {
     }
   };
 
+  // Inline styles for fallback
+  const styles = {
+    container: {
+      minHeight: '100vh',
+      background: 'linear-gradient(135deg, #581c87 0%, #1e3a8a 50%, #312e81 100%)',
+      padding: '24px'
+    },
+    maxWidth: {
+      maxWidth: '80rem',
+      margin: '0 auto'
+    },
+    header: {
+      position: 'sticky',
+      top: 0,
+      zIndex: 20,
+      background: 'linear-gradient(135deg, rgba(88,28,135,0.9) 0%, rgba(30,58,138,0.9) 50%, rgba(49,46,129,0.9) 100%)',
+      paddingBottom: '16px',
+      marginBottom: '32px',
+      borderRadius: '0 0 16px 16px',
+      boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
+    },
+    headerContent: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      paddingTop: '24px',
+      paddingLeft: '8px',
+      paddingRight: '8px'
+    },
+    title: {
+      fontSize: '2.25rem',
+      fontWeight: 'bold',
+      color: 'white',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '12px'
+    },
+    buttonContainer: {
+      display: 'flex',
+      gap: '16px'
+    },
+    homeButton: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '8px',
+      padding: '12px 20px',
+      borderRadius: '9999px',
+      background: '#2563eb',
+      color: 'white',
+      fontSize: '1.125rem',
+      fontWeight: 'bold',
+      boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+      border: 'none',
+      cursor: 'pointer',
+      transition: 'all 0.2s'
+    },
+    createButton: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '8px',
+      padding: '12px 20px',
+      borderRadius: '9999px',
+      background: 'linear-gradient(to right, #fb923c, #fbbf24)',
+      color: 'white',
+      fontSize: '1.125rem',
+      fontWeight: 'bold',
+      boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+      border: 'none',
+      cursor: 'pointer',
+      transition: 'all 0.2s'
+    },
+    grid: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
+      gap: '32px'
+    },
+    card: {
+      background: 'rgba(255, 255, 255, 0.1)',
+      backdropFilter: 'blur(12px)',
+      borderRadius: '16px',
+      border: '1px solid rgba(255, 255, 255, 0.2)',
+      boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+      overflow: 'hidden',
+      display: 'flex',
+      flexDirection: 'column',
+      transition: 'box-shadow 0.3s'
+    },
+    cardHeader: {
+      padding: '16px',
+      borderBottom: '1px solid rgba(255, 255, 255, 0.2)',
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center'
+    },
+    userInfo: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '12px'
+    },
+    avatar: {
+      width: '40px',
+      height: '40px',
+      background: 'linear-gradient(to right, #fb923c, #fbbf24)',
+      borderRadius: '50%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      color: 'white',
+      fontWeight: 'bold'
+    },
+    userName: {
+      color: 'white',
+      fontWeight: '600'
+    },
+    date: {
+      color: '#9ca3af',
+      fontSize: '0.875rem'
+    },
+    valueInfo: {
+      textAlign: 'right'
+    },
+    value: {
+      color: '#fbbf24',
+      fontWeight: 'bold',
+      fontSize: '1.125rem',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '4px'
+    },
+    valueLabel: {
+      color: '#9ca3af',
+      fontSize: '0.875rem'
+    },
+    imageContainer: {
+      padding: '16px',
+      flex: 1,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    },
+    image: {
+      width: '100%',
+      maxWidth: '300px',
+      margin: '0 auto',
+      borderRadius: '8px',
+      background: 'white',
+      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+    },
+    textInfo: {
+      padding: '0 16px 8px',
+    },
+    textBox: {
+      background: 'rgba(255, 255, 255, 0.05)',
+      borderRadius: '8px',
+      padding: '12px'
+    },
+    textLine: {
+      color: 'white',
+      fontSize: '0.875rem',
+      marginBottom: '4px'
+    },
+    textLabel: {
+      color: '#9ca3af'
+    },
+    actions: {
+      padding: '16px',
+      borderTop: '1px solid rgba(255, 255, 255, 0.2)',
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center'
+    },
+    actionButtons: {
+      display: 'flex',
+      gap: '12px'
+    },
+    likeButton: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '8px',
+      padding: '8px 16px',
+      borderRadius: '9999px',
+      background: 'linear-gradient(to right, #ec4899, #ef4444)',
+      boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+      color: 'white',
+      fontWeight: 'bold',
+      border: 'none',
+      cursor: 'pointer',
+      transition: 'all 0.2s'
+    },
+    commentButton: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '8px',
+      padding: '8px 16px',
+      borderRadius: '9999px',
+      background: 'linear-gradient(to right, #3b82f6, #8b5cf6)',
+      boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+      color: 'white',
+      fontWeight: 'bold',
+      border: 'none',
+      cursor: 'pointer',
+      transition: 'all 0.2s'
+    },
+    shareButton: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '8px',
+      padding: '8px 16px',
+      borderRadius: '9999px',
+      background: 'linear-gradient(to right, #10b981, #14b8a6)',
+      boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+      color: 'white',
+      fontWeight: 'bold',
+      border: 'none',
+      cursor: 'pointer',
+      transition: 'all 0.2s'
+    },
+    buyButton: {
+      background: 'linear-gradient(to right, #fbbf24, #fb923c)',
+      color: 'white',
+      padding: '8px 16px',
+      borderRadius: '9999px',
+      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+      fontWeight: '600',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '8px',
+      border: 'none',
+      cursor: 'pointer',
+      transition: 'all 0.2s'
+    },
+    emptyState: {
+      background: 'rgba(255, 255, 255, 0.1)',
+      backdropFilter: 'blur(12px)',
+      borderRadius: '12px',
+      padding: '48px',
+      border: '1px solid rgba(255, 255, 255, 0.2)',
+      textAlign: 'center'
+    },
+    emptyTitle: {
+      fontSize: '1.5rem',
+      fontWeight: 'bold',
+      color: 'white',
+      marginBottom: '16px'
+    },
+    emptyText: {
+      color: '#d1d5db',
+      marginBottom: '32px'
+    },
+    emptyButton: {
+      background: 'linear-gradient(to right, #fb923c, #fbbf24)',
+      color: 'white',
+      padding: '16px 32px',
+      borderRadius: '8px',
+      fontSize: '1.125rem',
+      fontWeight: '600',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '8px',
+      margin: '0 auto',
+      border: 'none',
+      cursor: 'pointer',
+      transition: 'all 0.2s'
+    }
+  };
+
   if (memes.length === 0) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 p-6">
-        <div className="max-w-4xl mx-auto">
-          <div className="flex justify-between items-center mb-8">
-            <h1 className="text-4xl font-bold text-white flex items-center gap-2">
-              <TrendingUp className="w-8 h-8 text-yellow-400" />
+      <div style={styles.container}>
+        <div style={styles.maxWidth}>
+          <div style={styles.headerContent}>
+            <h1 style={styles.title}>
+              <TrendingUp size={32} style={{color: '#fbbf24'}} />
               Meme Feed
             </h1>
-            <div className="flex gap-4">
+            <div style={styles.buttonContainer}>
               <button
                 onClick={goHome}
-                className="flex items-center gap-2 px-5 py-3 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-lg font-bold shadow-lg transition-transform hover:scale-105"
+                style={styles.homeButton}
+                onMouseOver={(e) => e.target.style.background = '#1d4ed8'}
+                onMouseOut={(e) => e.target.style.background = '#2563eb'}
               >
-                <Home className="w-6 h-6" /> Home
+                <Home size={24} /> Home
               </button>
               <button
                 onClick={goToEditor}
-                className="flex items-center gap-2 px-5 py-3 rounded-full bg-gradient-to-r from-orange-400 to-yellow-400 hover:from-orange-500 hover:to-yellow-500 text-white text-lg font-bold shadow-lg transition-transform hover:scale-105"
+                style={styles.createButton}
+                onMouseOver={(e) => e.target.style.transform = 'scale(1.05)'}
+                onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
               >
-                <Palette className="w-6 h-6" /> Create Meme
+                <Palette size={24} /> Create Meme
               </button>
             </div>
           </div>
 
-          <div className="bg-white/10 backdrop-blur-md rounded-xl p-12 border border-white/20 text-center">
-            <div className="text-6xl mb-6">🎭</div>
-            <h2 className="text-2xl font-bold text-white mb-4">No Memes Yet!</h2>
-            <p className="text-gray-300 mb-8">
+          <div style={styles.emptyState}>
+            <div style={{fontSize: '4rem', marginBottom: '24px'}}>🎭</div>
+            <h2 style={styles.emptyTitle}>No Memes Yet!</h2>
+            <p style={styles.emptyText}>
               Be the first to create and mint a meme. Start building the meme economy!
             </p>
             <button
               onClick={goToEditor}
-              className="bg-gradient-to-r from-orange-400 to-yellow-400 hover:from-orange-500 hover:to-yellow-500 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all transform hover:scale-105 flex items-center gap-2 mx-auto"
+              style={styles.emptyButton}
+              onMouseOver={(e) => e.target.style.transform = 'scale(1.05)'}
+              onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
             >
-              <Palette className="w-6 h-6" />
+              <Palette size={24} />
               Create Your First Meme
             </button>
           </div>
@@ -103,110 +375,125 @@ const MemeFeed = ({ memes: propMemes, onNavigateToEditor, onNavigateHome }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 p-6">
-      <div className="max-w-5xl mx-auto">
-        <div className="sticky top-0 z-20 bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 bg-opacity-90 pb-4 mb-8 rounded-b-2xl shadow-lg">
-          <div className="flex justify-between items-center pt-6 px-2">
-            <h1 className="text-4xl font-bold text-white flex items-center gap-3">
-              <TrendingUp className="w-8 h-8 text-yellow-400" />
+    <div style={styles.container}>
+      <div style={styles.maxWidth}>
+        <div style={styles.header}>
+          <div style={styles.headerContent}>
+            <h1 style={styles.title}>
+              <TrendingUp size={32} style={{color: '#fbbf24'}} />
               Meme Feed
             </h1>
-            <div className="flex gap-4">
+            <div style={styles.buttonContainer}>
               <button
                 onClick={goHome}
-                className="flex items-center gap-2 px-5 py-3 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-lg font-bold shadow-lg transition-transform hover:scale-105"
+                style={styles.homeButton}
+                onMouseOver={(e) => e.target.style.background = '#1d4ed8'}
+                onMouseOut={(e) => e.target.style.background = '#2563eb'}
               >
-                <Home className="w-6 h-6" /> Home
+                <Home size={24} /> Home
               </button>
               <button
                 onClick={goToEditor}
-                className="flex items-center gap-2 px-5 py-3 rounded-full bg-gradient-to-r from-orange-400 to-yellow-400 hover:from-orange-500 hover:to-yellow-500 text-white text-lg font-bold shadow-lg transition-transform hover:scale-105"
+                style={styles.createButton}
+                onMouseOver={(e) => e.target.style.transform = 'scale(1.05)'}
+                onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
               >
-                <Palette className="w-6 h-6" /> Create Meme
+                <Palette size={24} /> Create Meme
               </button>
             </div>
           </div>
         </div>
-        {/* Meme Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+
+        <div style={styles.grid}>
           {memes.map((meme) => (
             <div
               key={meme.id}
-              className="bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 shadow-xl hover:shadow-2xl transition-shadow duration-300 overflow-hidden flex flex-col"
+              style={styles.card}
+              onMouseOver={(e) => e.target.style.boxShadow = '0 25px 50px -12px rgba(0, 0, 0, 0.4)'}
+              onMouseOut={(e) => e.target.style.boxShadow = '0 25px 50px -12px rgba(0, 0, 0, 0.25)'}
             >
-              {/* Meme Header */}
-              <div className="p-4 border-b border-white/20 flex justify-between items-center">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gradient-to-r from-orange-400 to-yellow-400 rounded-full flex items-center justify-center">
-                    <span className="text-white font-bold">
-                      {meme.creator.charAt(0).toUpperCase()}
-                    </span>
+              <div style={styles.cardHeader}>
+                <div style={styles.userInfo}>
+                  <div style={styles.avatar}>
+                    {meme.creator.charAt(0).toUpperCase()}
                   </div>
                   <div>
-                    <p className="text-white font-semibold">{meme.creator}</p>
-                    <p className="text-gray-400 text-sm">
+                    <p style={styles.userName}>{meme.creator}</p>
+                    <p style={styles.date}>
                       {meme.createdAt ? new Date(meme.createdAt).toLocaleDateString() : '—'}
                     </p>
                   </div>
                 </div>
-                <div className="text-right">
-                  <p className="text-yellow-400 font-bold text-lg flex items-center gap-1">
-                    <Coins className="w-5 h-5" />
+                <div style={styles.valueInfo}>
+                  <p style={styles.value}>
+                    <Coins size={20} />
                     ${meme.value}
                   </p>
-                  <p className="text-gray-400 text-sm">Market Value</p>
+                  <p style={styles.valueLabel}>Market Value</p>
                 </div>
               </div>
-              {/* Meme Content */}
-              <div className="p-4 flex-1 flex items-center justify-center">
+
+              <div style={styles.imageContainer}>
                 <img
                   src={meme.image}
                   alt="Meme"
-                  className="w-full max-w-xs mx-auto rounded-lg bg-white shadow-md"
+                  style={styles.image}
                 />
               </div>
-              {/* Meme Info */}
+
               {(meme.topText || meme.bottomText) && (
-                <div className="px-4 pb-2">
-                  <div className="bg-white/5 rounded-lg p-3">
+                <div style={styles.textInfo}>
+                  <div style={styles.textBox}>
                     {meme.topText && (
-                      <p className="text-white text-sm mb-1">
-                        <span className="text-gray-400">Top:</span> {meme.topText}
+                      <p style={styles.textLine}>
+                        <span style={styles.textLabel}>Top:</span> {meme.topText}
                       </p>
                     )}
                     {meme.bottomText && (
-                      <p className="text-white text-sm">
-                        <span className="text-gray-400">Bottom:</span> {meme.bottomText}
+                      <p style={styles.textLine}>
+                        <span style={styles.textLabel}>Bottom:</span> {meme.bottomText}
                       </p>
                     )}
                   </div>
                 </div>
               )}
-              {/* Actions */}
-              <div className="p-4 border-t border-white/20">
-                <div className="flex justify-between items-center">
-                  <div className="flex gap-3">
-                    <button
-                      onClick={() => handleLike(meme.id)}
-                      className="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-pink-500 to-red-500 shadow-lg hover:brightness-110 hover:-translate-y-1 transition-all font-bold text-white"
-                    >
-                      <Heart className="w-5 h-5 text-white" />
-                      <span>{meme.likes}</span>
-                    </button>
-                    <button className="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 shadow-lg hover:brightness-110 hover:-translate-y-1 transition-all font-bold text-white">
-                      <MessageCircle className="w-5 h-5 text-white" />
-                      <span>Comment</span>
-                    </button>
-                    <button className="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-green-400 to-teal-500 shadow-lg hover:brightness-110 hover:-translate-y-1 transition-all font-bold text-white">
-                      <Share2 className="w-5 h-5 text-white" />
-                      <span>Share</span>
-                    </button>
-                  </div>
-                  <button className="bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 text-white px-4 py-2 rounded-full transition-all shadow-md font-semibold flex items-center gap-2 transform hover:scale-105">
-                    <Coins className="w-4 h-4" />
-                    Buy Coin
+
+              <div style={styles.actions}>
+                <div style={styles.actionButtons}>
+                  <button
+                    onClick={() => handleLike(meme.id)}
+                    style={styles.likeButton}
+                    onMouseOver={(e) => e.target.style.transform = 'translateY(-2px)'}
+                    onMouseOut={(e) => e.target.style.transform = 'translateY(0)'}
+                  >
+                    <Heart size={20} />
+                    <span>{meme.likes}</span>
+                  </button>
+                  <button
+                    style={styles.commentButton}
+                    onMouseOver={(e) => e.target.style.transform = 'translateY(-2px)'}
+                    onMouseOut={(e) => e.target.style.transform = 'translateY(0)'}
+                  >
+                    <MessageCircle size={20} />
+                    <span>Comment</span>
+                  </button>
+                  <button
+                    style={styles.shareButton}
+                    onMouseOver={(e) => e.target.style.transform = 'translateY(-2px)'}
+                    onMouseOut={(e) => e.target.style.transform = 'translateY(0)'}
+                  >
+                    <Share2 size={20} />
+                    <span>Share</span>
                   </button>
                 </div>
+                <button
+                  style={styles.buyButton}
+                  onMouseOver={(e) => e.target.style.transform = 'scale(1.05)'}
+                  onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
+                >
+                  <Coins size={16} />
+                  Buy Coin
+                </button>
               </div>
             </div>
           ))}

@@ -240,30 +240,261 @@ const MemeEditor = ({ onMemeCreated, onNavigateToFeed, onNavigateHome }) => {
     }
   }, []);
 
+  const containerStyle = {
+    minHeight: '100vh',
+    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    padding: '1.5rem'
+  };
+
+  const mainContainerStyle = {
+    maxWidth: '1200px',
+    margin: '0 auto'
+  };
+
+  const headerStyle = {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '3rem'
+  };
+
+  const titleStyle = {
+    fontSize: '2.5rem',
+    fontWeight: 'bold',
+    color: 'white',
+    margin: 0
+  };
+
+  const navButtonsStyle = {
+    display: 'flex',
+    gap: '1rem'
+  };
+
+  const navButtonStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.5rem',
+    padding: '0.75rem 1.5rem',
+    background: 'rgba(255, 255, 255, 0.1)',
+    backdropFilter: 'blur(10px)',
+    borderRadius: '25px',
+    border: '1px solid rgba(255, 255, 255, 0.2)',
+    color: 'white',
+    cursor: 'pointer',
+    transition: 'all 0.3s ease',
+    fontSize: '1rem',
+    fontWeight: '500'
+  };
+
+  const subtitleStyle = {
+    textAlign: 'center',
+    marginBottom: '3rem'
+  };
+
+  const subtitleTextStyle = {
+    color: 'rgba(255, 255, 255, 0.8)',
+    fontSize: '1.25rem',
+    margin: 0
+  };
+
+  const gridStyle = {
+    display: 'grid',
+    gridTemplateColumns: '1fr 2fr',
+    gap: '2rem'
+  };
+
+  const leftPanelStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '2rem'
+  };
+
+  const cardStyle = {
+    background: 'rgba(255, 255, 255, 0.1)',
+    backdropFilter: 'blur(10px)',
+    borderRadius: '20px',
+    padding: '2rem',
+    border: '1px solid rgba(255, 255, 255, 0.2)'
+  };
+
+  const cardHeaderStyle = {
+    textAlign: 'center',
+    marginBottom: '1.5rem'
+  };
+
+  const iconStyle = {
+    width: '4rem',
+    height: '4rem',
+    background: 'linear-gradient(135deg, #ff6b6b, #feca57)',
+    borderRadius: '50%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: '0 auto 1rem auto'
+  };
+
+  const cardTitleStyle = {
+    fontSize: '1.25rem',
+    fontWeight: 'bold',
+    color: 'white',
+    margin: '0 0 0.5rem 0'
+  };
+
+  const cardSubtitleStyle = {
+    color: 'rgba(255, 255, 255, 0.7)',
+    fontSize: '0.875rem',
+    margin: 0
+  };
+
+  const templateButtonsStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.75rem'
+  };
+
+  const templateButtonStyle = (isSelected) => ({
+    width: '100%',
+    padding: '0.75rem 1rem',
+    borderRadius: '15px',
+    border: 'none',
+    cursor: 'pointer',
+    transition: 'all 0.3s ease',
+    fontWeight: '600',
+    fontSize: '1rem',
+    background: isSelected
+      ? 'linear-gradient(135deg, #ff6b6b, #feca57)'
+      : 'rgba(255, 255, 255, 0.1)',
+    color: 'white',
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: isSelected ? 'transparent' : 'rgba(255, 255, 255, 0.2)'
+  });
+
+  const fileInputStyle = {
+    width: '100%',
+    padding: '0.75rem',
+    background: 'rgba(255, 255, 255, 0.1)',
+    border: '1px solid rgba(255, 255, 255, 0.3)',
+    borderRadius: '15px',
+    color: 'white',
+    fontSize: '0.875rem'
+  };
+
+  const inputStyle = {
+    width: '100%',
+    padding: '0.75rem 1rem',
+    background: 'rgba(255, 255, 255, 0.1)',
+    border: '1px solid rgba(255, 255, 255, 0.3)',
+    borderRadius: '15px',
+    color: 'white',
+    fontSize: '1rem',
+    outline: 'none',
+    transition: 'all 0.3s ease'
+  };
+
+  const labelStyle = {
+    display: 'block',
+    color: 'rgba(255, 255, 255, 0.9)',
+    marginBottom: '0.5rem',
+    fontWeight: '500'
+  };
+
+  const rightPanelStyle = {
+    background: 'rgba(255, 255, 255, 0.1)',
+    backdropFilter: 'blur(10px)',
+    borderRadius: '20px',
+    padding: '2rem',
+    border: '1px solid rgba(255, 255, 255, 0.2)'
+  };
+
+  const previewHeaderStyle = {
+    textAlign: 'center',
+    marginBottom: '2rem'
+  };
+
+  const previewTitleStyle = {
+    fontSize: '1.5rem',
+    fontWeight: 'bold',
+    color: 'white',
+    margin: '0 0 0.5rem 0'
+  };
+
+  const canvasContainerStyle = {
+    display: 'flex',
+    justifyContent: 'center',
+    marginBottom: '2rem'
+  };
+
+  const canvasStyle = {
+    border: '4px solid rgba(255, 255, 255, 0.2)',
+    borderRadius: '15px',
+    maxWidth: '100%',
+    height: 'auto',
+    background: 'white',
+    boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3)'
+  };
+
+  const actionButtonsStyle = {
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: '1rem',
+    justifyContent: 'center'
+  };
+
+  const actionButtonStyle = (gradient) => ({
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.75rem',
+    padding: '1rem 2rem',
+    background: gradient,
+    borderRadius: '25px',
+    color: 'white',
+    fontWeight: 'bold',
+    border: 'none',
+    cursor: 'pointer',
+    transition: 'all 0.3s ease',
+    fontSize: '1rem',
+    boxShadow: '0 10px 20px rgba(0, 0, 0, 0.2)'
+  });
+
+  const actionIconStyle = {
+    width: '2.5rem',
+    height: '2.5rem',
+    background: 'rgba(255, 255, 255, 0.2)',
+    borderRadius: '50%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 p-6">
-      <div className="max-w-6xl mx-auto">
+    <div style={containerStyle}>
+      <div style={mainContainerStyle}>
         {/* Header with Navigation */}
-        <div className="flex justify-between items-center mb-12">
-          <h2 className="text-4xl font-bold text-white mb-4">
+        <div style={headerStyle}>
+          <h2 style={titleStyle}>
             🎨 Create Your Meme
           </h2>
-          <div className="flex gap-4">
+          <div style={navButtonsStyle}>
             <button
               onClick={goBack}
-              className="flex items-center gap-2 px-6 py-3 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-white hover:bg-white/20 transition-all duration-300"
+              style={navButtonStyle}
+              onMouseEnter={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.2)'}
+              onMouseLeave={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.1)'}
             >
-              <span className="bg-gradient-to-br from-gray-500 to-gray-700 p-2 rounded-full shadow-lg flex items-center justify-center">
-                <ArrowLeft className="w-5 h-5 text-white" />
+              <span style={{...actionIconStyle, background: 'linear-gradient(135deg, #6c757d, #495057)'}}>
+                <ArrowLeft size={20} />
               </span>
               Back
             </button>
             <button
               onClick={goHome}
-              className="flex items-center gap-2 px-6 py-3 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-white hover:bg-white/20 transition-all duration-300"
+              style={navButtonStyle}
+              onMouseEnter={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.2)'}
+              onMouseLeave={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.1)'}
             >
-              <span className="bg-gradient-to-br from-blue-500 to-purple-400 p-2 rounded-full shadow-lg flex items-center justify-center">
-                <Home className="w-5 h-5 text-white" />
+              <span style={{...actionIconStyle, background: 'linear-gradient(135deg, #667eea, #764ba2)'}}>
+                <Home size={20} />
               </span>
               Home
             </button>
@@ -271,39 +502,45 @@ const MemeEditor = ({ onMemeCreated, onNavigateToFeed, onNavigateHome }) => {
         </div>
 
         {/* Main Content */}
-        <div className="text-center mb-12">
-          <p className="text-white/80 text-xl">
+        <div style={subtitleStyle}>
+          <p style={subtitleTextStyle}>
             Design unique memes and turn them into valuable NFT tokens
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div style={gridStyle}>
           {/* Left Panel - Templates and Upload */}
-          <div className="space-y-8">
+          <div style={leftPanelStyle}>
             {/* Templates Section */}
-            <div className="bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20">
-              <div className="text-center mb-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl">🖼️</span>
+            <div style={cardStyle}>
+              <div style={cardHeaderStyle}>
+                <div style={{...iconStyle, background: 'linear-gradient(135deg, #ff9a56, #ffad56)'}}>
+                  <span style={{fontSize: '1.5rem'}}>🖼️</span>
                 </div>
-                <h3 className="text-xl font-bold text-white">
+                <h3 style={cardTitleStyle}>
                   Choose Template
                 </h3>
-                <p className="text-white/70 text-sm mt-2">
+                <p style={cardSubtitleStyle}>
                   Select from popular meme templates
                 </p>
               </div>
 
-              <div className="space-y-3">
+              <div style={templateButtonsStyle}>
                 {templates.map((template) => (
                   <button
                     key={template.id}
                     onClick={() => loadTemplate(template.src)}
-                    className={`w-full px-4 py-3 rounded-2xl transition-all font-semibold ${
-                      selectedTemplate === template.src
-                        ? "bg-gradient-to-r from-orange-400 to-pink-500 text-white shadow-lg"
-                        : "bg-white/10 text-white/90 hover:bg-white/20 border border-white/20"
-                    }`}
+                    style={templateButtonStyle(selectedTemplate === template.src)}
+                    onMouseEnter={(e) => {
+                      if (selectedTemplate !== template.src) {
+                        e.target.style.background = 'rgba(255, 255, 255, 0.2)';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (selectedTemplate !== template.src) {
+                        e.target.style.background = 'rgba(255, 255, 255, 0.1)';
+                      }
+                    }}
                   >
                     {template.name}
                   </button>
@@ -312,41 +549,41 @@ const MemeEditor = ({ onMemeCreated, onNavigateToFeed, onNavigateHome }) => {
             </div>
 
             {/* Upload Section */}
-            <div className="bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20">
-              <div className="text-center mb-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Upload className="w-8 h-8 text-white" />
+            <div style={cardStyle}>
+              <div style={cardHeaderStyle}>
+                <div style={{...iconStyle, background: 'linear-gradient(135deg, #667eea, #764ba2)'}}>
+                  <Upload size={24} />
                 </div>
-                <h3 className="text-xl font-bold text-white">Upload Image</h3>
-                <p className="text-white/70 text-sm mt-2">
+                <h3 style={cardTitleStyle}>Upload Image</h3>
+                <p style={cardSubtitleStyle}>
                   Or use your own custom image
                 </p>
               </div>
-              <label className="block">
+              <label>
                 <input
                   type="file"
                   accept="image/*"
                   onChange={handleImageUpload}
-                  className="block w-full text-sm text-white/80 file:mr-4 file:py-3 file:px-6 file:rounded-2xl file:border-0 file:bg-gradient-to-r file:from-blue-400 file:to-purple-500 file:text-white file:font-semibold hover:file:brightness-110 cursor-pointer file:transition-all"
+                  style={fileInputStyle}
                 />
               </label>
             </div>
 
             {/* Text Controls */}
-            <div className="bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20">
-              <div className="text-center mb-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-green-400 to-teal-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Type className="w-8 h-8 text-white" />
+            <div style={cardStyle}>
+              <div style={cardHeaderStyle}>
+                <div style={{...iconStyle, background: 'linear-gradient(135deg, #11cdef, #1171ef)'}}>
+                  <Type size={24} />
                 </div>
-                <h3 className="text-xl font-bold text-white">Add Text</h3>
-                <p className="text-white/70 text-sm mt-2">
+                <h3 style={cardTitleStyle}>Add Text</h3>
+                <p style={cardSubtitleStyle}>
                   Make your meme speak
                 </p>
               </div>
 
-              <div className="space-y-4">
+              <div style={{display: 'flex', flexDirection: 'column', gap: '1rem'}}>
                 <div>
-                  <label className="block text-white/90 mb-2 font-medium">
+                  <label style={labelStyle}>
                     Top Text:
                   </label>
                   <input
@@ -354,11 +591,13 @@ const MemeEditor = ({ onMemeCreated, onNavigateToFeed, onNavigateHome }) => {
                     value={topText}
                     onChange={(e) => setTopText(e.target.value)}
                     placeholder="Enter top text..."
-                    className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-2xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all"
+                    style={inputStyle}
+                    onFocus={(e) => e.target.style.borderColor = 'rgba(255, 107, 107, 0.5)'}
+                    onBlur={(e) => e.target.style.borderColor = 'rgba(255, 255, 255, 0.3)'}
                   />
                 </div>
                 <div>
-                  <label className="block text-white/90 mb-2 font-medium">
+                  <label style={labelStyle}>
                     Bottom Text:
                   </label>
                   <input
@@ -366,7 +605,9 @@ const MemeEditor = ({ onMemeCreated, onNavigateToFeed, onNavigateHome }) => {
                     value={bottomText}
                     onChange={(e) => setBottomText(e.target.value)}
                     placeholder="Enter bottom text..."
-                    className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-2xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all"
+                    style={inputStyle}
+                    onFocus={(e) => e.target.style.borderColor = 'rgba(255, 107, 107, 0.5)'}
+                    onBlur={(e) => e.target.style.borderColor = 'rgba(255, 255, 255, 0.3)'}
                   />
                 </div>
               </div>
@@ -374,43 +615,44 @@ const MemeEditor = ({ onMemeCreated, onNavigateToFeed, onNavigateHome }) => {
           </div>
 
           {/* Right Panel - Canvas and Actions */}
-          <div className="lg:col-span-2">
-            <div className="bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20">
-              <div className="text-center mb-8">
-                <h3 className="text-2xl font-bold text-white mb-2">Preview</h3>
-                <p className="text-white/70">See your meme come to life</p>
-              </div>
+          <div style={rightPanelStyle}>
+            <div style={previewHeaderStyle}>
+              <h3 style={previewTitleStyle}>Preview</h3>
+              <p style={cardSubtitleStyle}>See your meme come to life</p>
+            </div>
 
-              {/* Canvas */}
-              <div className="flex justify-center mb-8">
-                <canvas
-                  ref={canvasRef}
-                  className="border-4 border-white/20 rounded-2xl max-w-full bg-white shadow-2xl"
-                  style={{ maxWidth: "100%", height: "auto" }}
-                />
-              </div>
+            {/* Canvas */}
+            <div style={canvasContainerStyle}>
+              <canvas
+                ref={canvasRef}
+                style={canvasStyle}
+              />
+            </div>
 
-              {/* Action Buttons */}
-              <div className="flex flex-wrap gap-4 justify-center">
-                <button
-                  onClick={downloadMeme}
-                  className="flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-green-400 to-teal-500 rounded-full text-white font-bold hover:brightness-110 hover:-translate-y-1 transition-all duration-300 shadow-lg"
-                >
-                  <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-                    <Download className="w-5 h-5" />
-                  </div>
-                  Download
-                </button>
-                <button
-                  onClick={mintMeme}
-                  className="flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-orange-400 to-pink-500 rounded-full text-white font-bold hover:brightness-110 hover:-translate-y-1 transition-all duration-300 shadow-lg"
-                >
-                  <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-                    <Sparkles className="w-5 h-5" />
-                  </div>
-                  Mint as Coin
-                </button>
-              </div>
+            {/* Action Buttons */}
+            <div style={actionButtonsStyle}>
+              <button
+                onClick={downloadMeme}
+                style={actionButtonStyle('linear-gradient(135deg, #11cdef, #1171ef)')}
+                onMouseEnter={(e) => e.target.style.transform = 'translateY(-2px)'}
+                onMouseLeave={(e) => e.target.style.transform = 'translateY(0)'}
+              >
+                <div style={actionIconStyle}>
+                  <Download size={20} />
+                </div>
+                Download
+              </button>
+              <button
+                onClick={mintMeme}
+                style={actionButtonStyle('linear-gradient(135deg, #ff6b6b, #feca57)')}
+                onMouseEnter={(e) => e.target.style.transform = 'translateY(-2px)'}
+                onMouseLeave={(e) => e.target.style.transform = 'translateY(0)'}
+              >
+                <div style={actionIconStyle}>
+                  <Sparkles size={20} />
+                </div>
+                Mint as Coin
+              </button>
             </div>
           </div>
         </div>
