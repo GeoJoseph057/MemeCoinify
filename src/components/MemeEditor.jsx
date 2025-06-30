@@ -1,9 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Upload, Type, Download, Sparkles, Home, ArrowLeft } from 'lucide-react';
 
-const MemeEditor = ({ onMemeCreated }) => {
-  const navigate = useNavigate();
+const MemeEditor = ({ onMemeCreated, onNavigateToFeed, onNavigateHome }) => {
   const canvasRef = useRef(null);
   const [selectedTemplate, setSelectedTemplate] = useState(null);
   const [topText, setTopText] = useState('');
@@ -187,7 +185,9 @@ const MemeEditor = ({ onMemeCreated }) => {
         setUploadedImage(null);
 
         // Navigate to feed after successful mint
-        navigate('/feed');
+        if (onNavigateToFeed) {
+          onNavigateToFeed();
+        }
 
         console.log('Meme minted:', meme);
       });
@@ -198,11 +198,17 @@ const MemeEditor = ({ onMemeCreated }) => {
   };
 
   const goHome = () => {
-    navigate('/');
+    if (onNavigateHome) {
+      onNavigateHome();
+    }
   };
 
   const goBack = () => {
-    navigate(-1); // Go back to previous page
+    if (onNavigateHome) {
+      onNavigateHome();
+    } else {
+      window.history.back();
+    }
   };
 
   // Redraw when text or template changes
