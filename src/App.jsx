@@ -330,10 +330,6 @@ function App() {
     setCurrentRoute(route)
   }
 
-  const handleTabChange = (tab) => {
-    setCurrentRoute(tab)
-  }
-
   const handleFilterChange = (filter) => {
     setActiveFilter(filter)
   }
