@@ -237,14 +237,14 @@ const MemeEditor = ({ onMemeCreated, onNavigateToFeed, onNavigateHome }) => {
           <div className="flex gap-3">
             <button
               onClick={goBack}
-              className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
+              className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-full flex items-center gap-2 transition-colors shadow-md"
             >
               <ArrowLeft className="w-4 h-4" />
               Back
             </button>
             <button
               onClick={goHome}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full flex items-center gap-2 transition-colors shadow-md"
             >
               <Home className="w-4 h-4" />
               Home

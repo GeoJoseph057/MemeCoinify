@@ -157,10 +157,10 @@ export default function MemeCard({ meme }) {
         <div className="flex items-center justify-between">
           <button
             onClick={handleLike}
-            className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-colors ${
+            className={`flex items-center space-x-2 px-3 py-2 rounded-full transition-colors shadow-md ${
               isLiked
-                ? 'bg-red-50 text-red-600'
-                : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
+                ? 'bg-red-100 text-red-600'
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
           >
             <Heart 
