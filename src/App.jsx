@@ -560,6 +560,7 @@ function App() {
               </button>
             ))}
           </nav>
+          <WalletConnect />
         </div>
       </header>
       <main className="main-content">
