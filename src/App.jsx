@@ -442,7 +442,11 @@ import './App.css'
                 </div>
               </section>
   
-              <MemeFeed memes={memes} />
+              <MemeFeed 
+                memes={memes} 
+                onNavigateToEditor={() => navigate('create')} 
+                onNavigateHome={() => navigate('home')} 
+              />
             </>
           )
         case 'portfolio':
@@ -519,7 +523,11 @@ import './App.css'
                   <h3 style={{ fontSize: '1.5rem', marginBottom: '2rem', opacity: 0.9, color: 'white' }}>
                     Your Memes
                   </h3>
-                  <MemeFeed memes={memes} />
+                  <MemeFeed 
+                    memes={memes} 
+                    onNavigateToEditor={() => navigate('create')} 
+                    onNavigateHome={() => navigate('home')} 
+                  />
                 </div>
               )}
             </div>

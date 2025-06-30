@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Heart, MessageCircle, Share2, Plus, Home } from 'lucide-react';
 
-const MemeFeed = ({ memes: propMemes }) => {
-  const navigate = useNavigate();
+const MemeFeed = ({ memes: propMemes, onNavigateToEditor, onNavigateHome }) => {
   const [memes, setMemes] = useState([]);
 
   useEffect(() => {
@@ -30,11 +28,15 @@ const MemeFeed = ({ memes: propMemes }) => {
   };
 
   const goToEditor = () => {
-    navigate('/editor');
+    if (onNavigateToEditor) {
+      onNavigateToEditor();
+    }
   };
 
   const goHome = () => {
-    navigate('/');
+    if (onNavigateHome) {
+      onNavigateHome();
+    }
   };
 
   if (memes.length === 0) {
