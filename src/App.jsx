@@ -548,7 +548,10 @@ function App() {
     <div className="app">
       <header className="header">
         <div className="header-content">
-          <div className="logo">MemeCoinify</div>
+          <div className="logo" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <img src="/Logo (2).png" alt="Logo" style={{ height: '5.4rem', width: '5.4rem', objectFit: 'contain' }} />
+            MemeCoinify
+          </div>
           <nav className="nav-tabs">
             {NAV_TABS.map(tab => (
               <button
