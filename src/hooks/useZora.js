@@ -1,15 +1,15 @@
 import { useState } from 'react'
-import { useAccount, useSigner } from 'wagmi'
+import { useAccount, useWalletClient } from 'wagmi'
 import { ZoraMinter } from '../utils/zora'
 
 export function useZora() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
   const { address } = useAccount()
-  const { data: signer } = useSigner()
+  const { data: walletClient } = useWalletClient()
 
   const mintMeme = async (memeData) => {
-    if (!signer || !address) {
+    if (!walletClient || !address) {
       throw new Error('Wallet not connected')
     }
 
@@ -17,12 +17,11 @@ export function useZora() {
     setError(null)
 
     try {
-      const minter = new ZoraMinter(signer)
+      const minter = new ZoraMinter(walletClient)
       const result = await minter.mintMemeCoin({
         ...memeData,
         creator: address
       })
-      
       return result
     } catch (err) {
       setError(err.message)
@@ -56,7 +55,7 @@ const mintMeme = async () => {
   }
 
   setIsMinting(true)
-  
+
   try {
     // Step 1: Upload to IPFS
     toast.loading('Uploading to IPFS...', { id: 'minting' })
@@ -68,14 +67,14 @@ const mintMeme = async () => {
 
     // Step 2: Mint on Zora using real contract
     toast.loading('Minting on Zora...', { id: 'minting' })
-    
+
     const { mintMeme: zoraMint } = useZora()
     const result = await zoraMint({
       title: memeTitle,
       description: memeDescription || 'A meme created with MemeCoinify',
       imageUrl
     })
-    
+
     const newMeme = {
       id: Date.now(),
       title: memeTitle,
@@ -88,15 +87,15 @@ const mintMeme = async () => {
       transactionHash: result.transactionHash,
       coinSymbol: result.coinSymbol
     }
-    
+
     onMemeCreated(newMeme)
     toast.success(`Meme minted as ${result.coinSymbol}!`, { id: 'minting' })
-    
+
     // Reset form
     setMemeTitle('')
     setMemeDescription('')
     clearCanvas()
-    
+
   } catch (error) {
     console.error('Minting failed:', error)
     toast.error('Failed to mint meme. Please try again.', { id: 'minting' })

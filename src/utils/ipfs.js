@@ -1,7 +1,9 @@
 import { NFTStorage, File } from 'nft.storage'
 
-const client = new NFTStorage({ 
-  token: import.meta.env.VITE_NFT_STORAGE_TOKEN 
+console.log('NFT_STORAGE_TOKEN:', import.meta.env.VITE_NFT_STORAGE_TOKEN)
+
+const client = new NFTStorage({
+  token: import.meta.env.VITE_NFT_STORAGE_TOKEN
 })
 
 export async function uploadToIPFS(canvas, name, description) {
@@ -10,7 +12,7 @@ export async function uploadToIPFS(canvas, name, description) {
     const blob = await new Promise(resolve => {
       canvas.toBlob(resolve, 'image/png')
     })
-    
+
     // Create metadata
     const metadata = await client.store({
       name,
@@ -21,7 +23,7 @@ export async function uploadToIPFS(canvas, name, description) {
         { trait_type: 'Created', value: new Date().toISOString() }
       ]
     })
-    
+
     return {
       imageUrl: `https://ipfs.io/ipfs/${metadata.data.image.pathname.slice(7)}`,
       metadataUrl: `https://ipfs.io/ipfs/${metadata.ipnft}`

@@ -1,13 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Heart, MessageCircle, Share2, Plus, Home, Palette, Coins, TrendingUp } from 'lucide-react';
 
-const MemeFeed = ({ memes: propMemes, onNavigateToEditor, onNavigateHome }) => {
+const MemeFeed = ({ memes: propMemes, selectedMemeId, onNavigateToEditor, onNavigateHome }) => {
   const [memes, setMemes] = useState([]);
+  const memeRefs = useRef({});
 
   useEffect(() => {
-    // No mock data; start with an empty array if no propMemes
-    setMemes([]);
+    // Use the memes passed from parent component
+    setMemes(propMemes || []);
   }, [propMemes]);
+
+  useEffect(() => {
+    if (selectedMemeId && memeRefs.current[selectedMemeId]) {
+      memeRefs.current[selectedMemeId].scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [selectedMemeId, memes]);
 
   const handleLike = (memeId) => {
     const updatedMemes = memes.map(meme => {
@@ -378,6 +385,7 @@ const MemeFeed = ({ memes: propMemes, onNavigateToEditor, onNavigateHome }) => {
         {memes.map((meme) => (
           <div
             key={meme.id}
+            ref={el => memeRefs.current[meme.id] = el}
             style={styles.card}
             onMouseOver={(e) => e.target.style.boxShadow = '0 25px 50px -12px rgba(0, 0, 0, 0.4)'}
             onMouseOut={(e) => e.target.style.boxShadow = '0 25px 50px -12px rgba(0, 0, 0, 0.25)'}

@@ -58,7 +58,7 @@ const FloatingParticles = () => {
 }
 
 // Home component
-function Home({ memes, onCreateMeme, onNavigateToFeed }) {
+function Home({ memes, onCreateMeme, onNavigateToFeed, onMemeClick }) {
   return (
     <>
       {/* Hero Section */}
@@ -153,20 +153,27 @@ function Home({ memes, onCreateMeme, onNavigateToFeed }) {
                 borderRadius: '20px',
                 padding: '1.5rem',
                 border: '1px solid rgba(255, 255, 255, 0.2)',
-                transition: 'transform 0.3s ease'
+                transition: 'transform 0.3s ease',
+                cursor: 'pointer'
               }}
               onMouseEnter={(e) => e.target.style.transform = 'translateY(-5px)'}
               onMouseLeave={(e) => e.target.style.transform = 'translateY(0)'}
+              onClick={() => onMemeClick(meme.id)}
               >
                 <img
                   src={meme.image}
                   alt="Meme"
                   style={{
-                    width: '100%',
-                    height: '200px',
-                    objectFit: 'cover',
+                    maxWidth: '100%',
+                    maxHeight: '200px',
+                    width: 'auto',
+                    height: 'auto',
+                    objectFit: 'contain',
                     borderRadius: '15px',
-                    marginBottom: '1rem'
+                    marginBottom: '1rem',
+                    display: 'block',
+                    marginLeft: 'auto',
+                    marginRight: 'auto'
                   }}
                 />
                 <div style={{ color: 'white' }}>
@@ -293,11 +300,13 @@ function App() {
   const [currentRoute, setCurrentRoute] = useState('home')
   const [activeFilter, setActiveFilter] = useState('recent')
   const [memes, setMemes] = useState([])
+  const [selectedMemeId, setSelectedMemeId] = useState(null)
 
   const handleMemeCreated = (newMeme) => {
     const updatedMemes = [newMeme, ...memes]
     setMemes(updatedMemes)
     setCurrentRoute('feed') // Navigate to feed after creating
+    setSelectedMemeId(newMeme.id)
   }
 
   const navigate = (route) => {
@@ -308,6 +317,11 @@ function App() {
     setActiveFilter(filter)
   }
 
+  const handleMemeClick = (memeId) => {
+    setSelectedMemeId(memeId)
+    setCurrentRoute('feed')
+  }
+
   const renderCurrentRoute = () => {
     switch(currentRoute) {
       case 'home':
@@ -316,6 +330,7 @@ function App() {
             memes={memes}
             onCreateMeme={() => navigate('create')}
             onNavigateToFeed={() => navigate('feed')}
+            onMemeClick={handleMemeClick}
           />
         )
       case 'create':
@@ -412,6 +427,7 @@ function App() {
             </section>
             <MemeFeed
               memes={memes}
+              selectedMemeId={selectedMemeId}
               onNavigateToEditor={() => navigate('create')}
               onNavigateHome={() => navigate('home')}
             />

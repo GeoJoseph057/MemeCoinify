@@ -7,6 +7,8 @@ import {
   Home,
   ArrowLeft,
 } from "lucide-react";
+import { useZora } from '../hooks/useZora';
+import { uploadToIPFS } from '../utils/ipfs';
 
 const MemeEditor = ({ onMemeCreated, onNavigateToFeed }) => {
   const canvasRef = useRef(null);
@@ -14,6 +16,8 @@ const MemeEditor = ({ onMemeCreated, onNavigateToFeed }) => {
   const [topText, setTopText] = useState("");
   const [bottomText, setBottomText] = useState("");
   const [uploadedImage, setUploadedImage] = useState(null);
+  const { mintMeme: zoraMint, isLoading, error } = useZora();
+  const [isMinting, setIsMinting] = useState(false);
 
   // Base64 encoded small template images (you can replace these with actual images)
   const templates = [
@@ -168,46 +172,56 @@ const MemeEditor = ({ onMemeCreated, onNavigateToFeed }) => {
       return;
     }
 
+    setIsMinting(true);
     try {
-      // Convert canvas to blob
-      canvas.toBlob(async () => {
-        // Create meme object
-        const meme = {
-          id: Date.now(),
-          image: canvas.toDataURL(),
-          topText,
-          bottomText,
-          template: selectedTemplate || "custom",
-          createdAt: new Date().toISOString(),
-          likes: 0,
-          value: Math.floor(Math.random() * 1000) + 100, // Random value for demo
-          creator: "You",
-        };
+      // Step 1: Upload to IPFS
+      const { imageUrl, metadataUrl } = await uploadToIPFS(
+        canvas,
+        topText || bottomText || 'Meme',
+        'A meme created with MemeCoinify'
+      );
 
-        // Add to parent component
-        if (onMemeCreated) {
-          onMemeCreated(meme);
-        }
-
-        // Show success message
-        alert("🚀 Meme minted successfully! Check your feed!");
-
-        // Clear the form
-        setTopText("");
-        setBottomText("");
-        setSelectedTemplate(null);
-        setUploadedImage(null);
-
-        // Navigate to feed after successful mint
-        if (onNavigateToFeed) {
-          onNavigateToFeed();
-        }
-
-        console.log("Meme minted:", meme);
+      // Step 2: Mint on Zora
+      const result = await zoraMint({
+        title: topText || bottomText || 'Meme',
+        description: 'A meme created with MemeCoinify',
+        imageUrl
       });
+
+      // Step 3: Add to parent component
+      const meme = {
+        id: Date.now(),
+        image: imageUrl,
+        topText,
+        bottomText,
+        template: selectedTemplate || "custom",
+        createdAt: new Date().toISOString(),
+        likes: 0,
+        value: Math.floor(Math.random() * 1000) + 100, // Random value for demo
+        creator: result?.creator || "You",
+        coinId: result?.tokenId,
+        transactionHash: result?.transactionHash,
+        coinSymbol: result?.coinSymbol,
+        metadataUrl
+      };
+      if (onMemeCreated) {
+        onMemeCreated(meme);
+      }
+      alert(`🚀 Meme minted on Zora! Token ID: ${result.tokenId}`);
+      // Clear the form
+      setTopText("");
+      setBottomText("");
+      setSelectedTemplate(null);
+      setUploadedImage(null);
+      if (onNavigateToFeed) {
+        onNavigateToFeed();
+      }
+      console.log("Meme minted on Zora:", meme);
     } catch (error) {
       console.error("Error minting meme:", error);
       alert("Error minting meme. Please try again.");
+    } finally {
+      setIsMinting(false);
     }
   };
 
@@ -581,6 +595,7 @@ const MemeEditor = ({ onMemeCreated, onNavigateToFeed }) => {
                 style={actionButtonStyle('linear-gradient(135deg, #11cdef, #1171ef)')}
                 onMouseEnter={(e) => e.target.style.transform = 'translateY(-2px)'}
                 onMouseLeave={(e) => e.target.style.transform = 'translateY(0)'}
+                disabled={isMinting || isLoading}
               >
                 <div style={actionIconStyle}>
                   <Download size={20} />
@@ -589,16 +604,30 @@ const MemeEditor = ({ onMemeCreated, onNavigateToFeed }) => {
               </button>
               <button
                 onClick={mintMeme}
-                style={actionButtonStyle('linear-gradient(135deg, #ff6b6b, #feca57)')}
+                style={{
+                  ...actionButtonStyle('linear-gradient(135deg, #ff6b6b, #feca57)'),
+                  opacity: (isMinting || isLoading) ? 0.6 : 1,
+                  pointerEvents: (isMinting || isLoading) ? 'none' : 'auto'
+                }}
                 onMouseEnter={(e) => e.target.style.transform = 'translateY(-2px)'}
                 onMouseLeave={(e) => e.target.style.transform = 'translateY(0)'}
+                disabled={isMinting || isLoading}
               >
                 <div style={actionIconStyle}>
-                  <Sparkles size={20} />
+                  {isMinting || isLoading ? (
+                    <span className="loading-dots" style={{ fontSize: '1.5rem' }}>⏳</span>
+                  ) : (
+                    <Sparkles size={20} />
+                  )}
                 </div>
-                Mint as Coin
+                {isMinting || isLoading ? 'Minting...' : 'Mint as Coin'}
               </button>
             </div>
+            {error && (
+              <div style={{ color: 'red', marginTop: '1rem', textAlign: 'center', fontWeight: 600 }}>
+                {error}
+              </div>
+            )}
           </div>
         </div>
       </div>
