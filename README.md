@@ -10,7 +10,6 @@
 ### 🖼 Meme Creation
 
 * Built-in meme editor with popular templates
-  *(Drake, Distracted Boyfriend, Woman Yelling at Cat, etc.)*
 * Add custom top and bottom text overlays
 * Upload your own images to make personalized memes
 * Real-time meme preview using HTML5 Canvas
