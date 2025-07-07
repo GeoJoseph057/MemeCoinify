@@ -130,8 +130,6 @@ Total: 0.001 ETH
 
 ---
 
----
-
 ## 🔌 API Integration Snippets
 
 ### 🧾 IPFS Upload
