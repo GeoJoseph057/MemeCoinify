@@ -1,9 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Heart, MessageCircle, Share2, Plus, Home, Palette, Coins, TrendingUp } from 'lucide-react';
+import { Heart, MessageCircle, Share2, Plus, Home, Palette, Coins, TrendingUp, Eye } from 'lucide-react';
+import { useAccount } from 'wagmi';
+import { handleMemeView } from '../utils/revenueSharing';
+import { truncateAddress, formatETH } from '../utils/formatting';
 
 const MemeFeed = ({ memes: propMemes, selectedMemeId, onNavigateToEditor, onNavigateHome }) => {
   const [memes, setMemes] = useState([]);
   const memeRefs = useRef({});
+  const { address: walletAddress } = useAccount();
 
   useEffect(() => {
     // Use the memes passed from parent component
@@ -24,6 +28,40 @@ const MemeFeed = ({ memes: propMemes, selectedMemeId, onNavigateToEditor, onNavi
       return meme;
     });
     setMemes(updatedMemes);
+  };
+
+  // New function to handle meme viewing with revenue sharing
+  const handleMemeViewClick = (memeId) => {
+    if (!walletAddress) {
+      alert('Please connect your wallet to earn from viewing memes!');
+      return;
+    }
+
+    const meme = memes.find(m => m.id === memeId);
+    if (!meme) return;
+
+    // Calculate revenue sharing
+    const revenueData = handleMemeView(meme, walletAddress, meme.creator);
+
+    if (revenueData) {
+      // Update memes with new view count and earnings
+      const updatedMemes = memes.map(m => {
+        if (m.id === memeId) {
+          return {
+            ...m,
+            viewCount: revenueData.viewCount,
+            earnings: m.earnings + revenueData.creatorRevenue
+          };
+        }
+        return m;
+      });
+      setMemes(updatedMemes);
+
+      // Show notification about earnings
+      if (revenueData.viewerRevenue > 0) {
+        alert(`🎉 You earned ${formatETH(revenueData.viewerRevenue)} ETH for viewing this meme!`);
+      }
+    }
   };
 
   const goToEditor = () => {
@@ -396,7 +434,7 @@ const MemeFeed = ({ memes: propMemes, selectedMemeId, onNavigateToEditor, onNavi
                   {meme.creator.charAt(0).toUpperCase()}
                 </div>
                 <div>
-                  <p style={styles.userName}>{meme.creator}</p>
+                  <p style={styles.userName}>{truncateAddress(meme.creator)}</p>
                   <p style={styles.date}>
                     {meme.createdAt ? new Date(meme.createdAt).toLocaleDateString() : '—'}
                   </p>
@@ -408,6 +446,11 @@ const MemeFeed = ({ memes: propMemes, selectedMemeId, onNavigateToEditor, onNavi
                   ${meme.value}
                 </p>
                 <p style={styles.valueLabel}>Market Value</p>
+                {meme.earnings > 0 && (
+                  <p style={{...styles.value, color: '#10b981', fontSize: '0.875rem'}}>
+                    💰 {formatETH(meme.earnings)} ETH earned
+                  </p>
+                )}
               </div>
             </div>
 
@@ -415,8 +458,26 @@ const MemeFeed = ({ memes: propMemes, selectedMemeId, onNavigateToEditor, onNavi
               <img
                 src={meme.image}
                 alt="Meme"
-                style={styles.image}
+                style={{...styles.image, cursor: 'pointer'}}
+                onClick={() => handleMemeViewClick(meme.id)}
+                title="Click to view and earn ETH!"
               />
+              <div style={{
+                position: 'absolute',
+                top: '8px',
+                right: '8px',
+                background: 'rgba(0, 0, 0, 0.7)',
+                color: 'white',
+                padding: '4px 8px',
+                borderRadius: '12px',
+                fontSize: '0.75rem',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px'
+              }}>
+                <Eye size={12} />
+                <span>{meme.viewCount || 0}</span>
+              </div>
             </div>
 
             {(meme.topText || meme.bottomText) && (

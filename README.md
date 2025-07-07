@@ -1,7 +1,29 @@
-
 # 🪙 MemeCoinify – Web3 Meme Creation & NFT Platform
 
 **MemeCoinify** is a Web3-enabled React application that empowers users to **create**, **mint**, and **trade memes** as NFTs on the blockchain. Built for meme lovers and crypto enthusiasts, it combines the creativity of meme-making with the power of decentralized technologies.
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js (v16 or higher)
+- npm or yarn
+- Web3 wallet (MetaMask, etc.)
+
+### Installation
+1. Clone the repository
+2. Install dependencies: `npm install`
+3. Create a `.env` file in the root directory with:
+   ```
+   VITE_NFT_STORAGE_TOKEN=your_nft_storage_token_here
+   VITE_WALLETCONNECT_PROJECT_ID=your_walletconnect_project_id_here
+   ```
+4. Start the development server: `npm run dev`
+
+### Environment Variables Setup
+- **VITE_NFT_STORAGE_TOKEN**: Get from [NFT.Storage](https://nft.storage/) (free)
+- **VITE_WALLETCONNECT_PROJECT_ID**: Get from [WalletConnect Cloud](https://cloud.walletconnect.com/) (free)
+
+> **Note**: If you don't have these tokens, the app will still work with mock data for demo purposes.
 
 ---
 
@@ -59,16 +81,16 @@ Yes, **if properly integrated** with Zora's smart contracts. The NFT is minted a
 
 ### 🔍 How does it get recorded?
 
-1. **User creates a meme** and clicks “Mint”
-2. **Smart contract call** is made using `ethers.js` / `wagmi` to Zora’s protocol
+1. **User creates a meme** and clicks "Mint"
+2. **Smart contract call** is made using `ethers.js` / `wagmi` to Zora's protocol
 3. **Metadata is stored** on IPFS (image + title + description)
 4. **NFT is minted**, and a transaction is recorded on-chain
-5. You can **view it on Zora’s block explorer**
+5. You can **view it on Zora's block explorer**
 
 ### ✅ How to verify it's minting?
 
 * Look for transaction hashes in the frontend after minting
-* Check integration with Zora’s SDK or contracts (e.g. `@zoralabs/protocol-sdk`)
+* Check integration with Zora's SDK or contracts (e.g. `@zoralabs/protocol-sdk`)
 * Confirm the NFT is visible on Zora or OpenSea
 
 ---

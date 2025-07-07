@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { Toaster } from 'react-hot-toast'
+import { useAccount } from 'wagmi'
 import WalletConnect from './components/WalletConnect'
 import MemeEditor from './components/MemeEditor'
 import MemeFeed from './components/MemeFeed'
+
 import './App.css'
 
 const NAV_TABS = [
@@ -301,6 +303,7 @@ function App() {
   const [activeFilter, setActiveFilter] = useState('recent')
   const [memes, setMemes] = useState([])
   const [selectedMemeId, setSelectedMemeId] = useState(null)
+  const { address: walletAddress } = useAccount()
 
   const handleMemeCreated = (newMeme) => {
     const updatedMemes = [newMeme, ...memes]
@@ -321,6 +324,8 @@ function App() {
     setSelectedMemeId(memeId)
     setCurrentRoute('feed')
   }
+
+
 
   const renderCurrentRoute = () => {
     switch(currentRoute) {
@@ -497,7 +502,71 @@ function App() {
                 </div>
                 <div style={{ opacity: 0.8 }}>Total Likes</div>
               </div>
+              {/* New Revenue Sharing Stats */}
+              <div style={{
+                background: 'rgba(255, 255, 255, 0.1)',
+                backdropFilter: 'blur(20px)',
+                borderRadius: '20px',
+                padding: '2rem',
+                textAlign: 'center',
+                border: '1px solid rgba(255, 255, 255, 0.2)'
+              }}>
+                <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>💎</div>
+                <div style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '0.5rem', color: '#10b981' }}>
+                  {memes.reduce((sum, meme) => sum + (meme.earnings || 0), 0).toFixed(4)}
+                </div>
+                <div style={{ opacity: 0.8 }}>ETH Earned</div>
+              </div>
+              <div style={{
+                background: 'rgba(255, 255, 255, 0.1)',
+                backdropFilter: 'blur(20px)',
+                borderRadius: '20px',
+                padding: '2rem',
+                textAlign: 'center',
+                border: '1px solid rgba(255, 255, 255, 0.2)'
+              }}>
+                <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>👁️</div>
+                <div style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '0.5rem', color: '#3b82f6' }}>
+                  {memes.reduce((sum, meme) => sum + (meme.viewCount || 0), 0)}
+                </div>
+                <div style={{ opacity: 0.8 }}>Total Views</div>
+              </div>
             </div>
+
+            {/* Revenue Sharing Info */}
+            <div style={{
+              background: 'rgba(255, 255, 255, 0.1)',
+              backdropFilter: 'blur(20px)',
+              borderRadius: '20px',
+              padding: '2rem',
+              marginBottom: '3rem',
+              border: '1px solid rgba(255, 255, 255, 0.2)'
+            }}>
+              <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: 'white' }}>💰 Revenue Sharing</h3>
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
+                gap: '1rem',
+                textAlign: 'center'
+              }}>
+                <div>
+                  <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#10b981' }}>60%</div>
+                  <div style={{ opacity: 0.8, fontSize: '0.9rem' }}>Creator Share</div>
+                </div>
+                <div>
+                  <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#3b82f6' }}>30%</div>
+                  <div style={{ opacity: 0.8, fontSize: '0.9rem' }}>Viewer Share</div>
+                </div>
+                <div>
+                  <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#f59e0b' }}>10%</div>
+                  <div style={{ opacity: 0.8, fontSize: '0.9rem' }}>Platform Share</div>
+                </div>
+              </div>
+              <p style={{ marginTop: '1rem', opacity: 0.8, fontSize: '0.9rem' }}>
+                Earn ETH every time someone views your memes! Each view generates 0.001 ETH in revenue.
+              </p>
+            </div>
+
             {memes.length > 0 && (
               <div>
                 <h3 style={{ fontSize: '1.5rem', marginBottom: '2rem', opacity: 0.9, color: 'white' }}>

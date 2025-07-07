@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useAccount, useWalletClient } from 'wagmi'
+import { ethers } from 'ethers'
 import { ZoraMinter } from '../utils/zora'
 
 export function useZora() {
@@ -17,7 +18,9 @@ export function useZora() {
     setError(null)
 
     try {
-      const minter = new ZoraMinter(walletClient)
+      // Convert walletClient to ethers signer
+      const signer = new ethers.BrowserProvider(walletClient).getSigner()
+      const minter = new ZoraMinter(signer)
       const result = await minter.mintMemeCoin({
         ...memeData,
         creator: address

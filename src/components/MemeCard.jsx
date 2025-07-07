@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Heart, Share2, ExternalLink, Copy, Calendar } from "lucide-react";
 import { toast } from "react-hot-toast";
+import { truncateAddress } from "../utils/formatting";
 
 export default function MemeCard({ meme }) {
   const [isLiked, setIsLiked] = useState(false);
@@ -42,11 +43,6 @@ export default function MemeCard({ meme }) {
       hour: "2-digit",
       minute: "2-digit",
     });
-  };
-
-  const formatAddress = (address) => {
-    if (!address) return "Anonymous";
-    return `${address.slice(0, 6)}...${address.slice(-4)}`;
   };
 
   return (
@@ -133,7 +129,7 @@ export default function MemeCard({ meme }) {
           <div className="flex items-center space-x-1">
             <span>By</span>
             <span className="font-medium text-zora-purple">
-              {formatAddress(meme.creator)}
+              {truncateAddress(meme.creator)}
             </span>
           </div>
           <div className="flex items-center space-x-1">

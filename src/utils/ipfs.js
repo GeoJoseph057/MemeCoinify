@@ -1,12 +1,23 @@
 import { NFTStorage, File } from 'nft.storage'
 
-console.log('NFT_STORAGE_TOKEN:', import.meta.env.VITE_NFT_STORAGE_TOKEN)
+const NFT_STORAGE_TOKEN = import.meta.env.VITE_NFT_STORAGE_TOKEN
 
-const client = new NFTStorage({
-  token: import.meta.env.VITE_NFT_STORAGE_TOKEN
-})
+if (!NFT_STORAGE_TOKEN) {
+  console.warn('NFT_STORAGE_TOKEN not found. Please add VITE_NFT_STORAGE_TOKEN to your .env file')
+}
+
+const client = NFT_STORAGE_TOKEN ? new NFTStorage({ token: NFT_STORAGE_TOKEN }) : null
 
 export async function uploadToIPFS(canvas, name, description) {
+  // If no client, use mock data immediately
+  if (!client) {
+    console.warn('NFT.Storage client not initialized. Using mock IPFS URL for demo purposes')
+    return {
+      imageUrl: canvas.toDataURL(),
+      metadataUrl: 'mock-metadata-url'
+    }
+  }
+
   try {
     // Convert canvas to blob
     const blob = await new Promise(resolve => {
@@ -30,6 +41,11 @@ export async function uploadToIPFS(canvas, name, description) {
     }
   } catch (error) {
     console.error('IPFS upload failed:', error)
-    throw error
+    console.warn('Using mock IPFS URL for demo purposes')
+
+    return {
+      imageUrl: canvas.toDataURL(),
+      metadataUrl: 'mock-metadata-url'
+    }
   }
 }

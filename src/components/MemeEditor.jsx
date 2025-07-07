@@ -6,9 +6,12 @@ import {
   Sparkles,
   Home,
   ArrowLeft,
+  Coins,
 } from "lucide-react";
 import { useZora } from '../hooks/useZora';
 import { uploadToIPFS } from '../utils/ipfs';
+import { useAccount } from 'wagmi';
+import { DEFAULT_VIEW_REVENUE, REVENUE_SHARES } from '../utils/revenueSharing';
 
 const MemeEditor = ({ onMemeCreated, onNavigateToFeed }) => {
   const canvasRef = useRef(null);
@@ -18,6 +21,7 @@ const MemeEditor = ({ onMemeCreated, onNavigateToFeed }) => {
   const [uploadedImage, setUploadedImage] = useState(null);
   const { mintMeme: zoraMint, isLoading, error } = useZora();
   const [isMinting, setIsMinting] = useState(false);
+  const { address: walletAddress } = useAccount();
 
   // Base64 encoded small template images (you can replace these with actual images)
   const templates = [
@@ -172,6 +176,12 @@ const MemeEditor = ({ onMemeCreated, onNavigateToFeed }) => {
       return;
     }
 
+    // Check if wallet is connected
+    if (!walletAddress) {
+      alert("Please connect your wallet to mint memes!");
+      return;
+    }
+
     setIsMinting(true);
     try {
       // Step 1: Upload to IPFS
@@ -181,14 +191,20 @@ const MemeEditor = ({ onMemeCreated, onNavigateToFeed }) => {
         'A meme created with MemeCoinify'
       );
 
-      // Step 2: Mint on Zora
-      const result = await zoraMint({
-        title: topText || bottomText || 'Meme',
-        description: 'A meme created with MemeCoinify',
-        imageUrl
-      });
+      // Step 2: Try to mint on Zora (with fallback)
+      let result = null;
+      try {
+        result = await zoraMint({
+          title: topText || bottomText || 'Meme',
+          description: 'A meme created with MemeCoinify',
+          imageUrl
+        });
+      } catch (zoraError) {
+        console.warn('Zora minting failed, using demo mode:', zoraError);
+        // Continue with demo mode
+      }
 
-      // Step 3: Add to parent component
+      // Step 3: Add to parent component with revenue sharing data
       const meme = {
         id: Date.now(),
         image: imageUrl,
@@ -197,17 +213,31 @@ const MemeEditor = ({ onMemeCreated, onNavigateToFeed }) => {
         template: selectedTemplate || "custom",
         createdAt: new Date().toISOString(),
         likes: 0,
+        viewCount: 0,
+        earnings: 0, // Initial earnings
         value: Math.floor(Math.random() * 1000) + 100, // Random value for demo
-        creator: result?.creator || "You",
-        coinId: result?.tokenId,
-        transactionHash: result?.transactionHash,
-        coinSymbol: result?.coinSymbol,
-        metadataUrl
+        creator: walletAddress, // Use actual wallet address
+        coinId: result?.tokenId || 'demo-' + Date.now(),
+        transactionHash: result?.transactionHash || 'demo-tx',
+        coinSymbol: result?.coinSymbol || 'DEMO',
+        metadataUrl,
+        // Revenue sharing data
+        revenuePerView: DEFAULT_VIEW_REVENUE,
+        creatorShare: REVENUE_SHARES.CREATOR_SHARE,
+        viewerShare: REVENUE_SHARES.VIEWER_SHARE,
+        platformShare: REVENUE_SHARES.PLATFORM_SHARE
       };
+
       if (onMemeCreated) {
         onMemeCreated(meme);
       }
-      alert(`🚀 Meme minted on Zora! Token ID: ${result.tokenId}`);
+
+      const successMessage = result
+        ? `🚀 Meme minted as ${result.coinSymbol}! You'll earn ${REVENUE_SHARES.CREATOR_SHARE}% of revenue when others view your meme!`
+        : `🎨 Meme created in demo mode! You'll earn ${REVENUE_SHARES.CREATOR_SHARE}% of revenue when others view your meme!`;
+
+      alert(successMessage);
+
       // Clear the form
       setTopText("");
       setBottomText("");
@@ -216,7 +246,7 @@ const MemeEditor = ({ onMemeCreated, onNavigateToFeed }) => {
       if (onNavigateToFeed) {
         onNavigateToFeed();
       }
-      console.log("Meme minted on Zora:", meme);
+      console.log("Meme minted with revenue sharing:", meme);
     } catch (error) {
       console.error("Error minting meme:", error);
       alert("Error minting meme. Please try again.");
@@ -570,6 +600,62 @@ const MemeEditor = ({ onMemeCreated, onNavigateToFeed }) => {
                   />
                 </div>
               </div>
+            </div>
+
+            {/* Revenue Sharing Info */}
+            <div style={cardStyle}>
+              <div style={cardHeaderStyle}>
+                <div style={{...iconStyle, background: 'linear-gradient(135deg, #10b981, #059669)'}}>
+                  <Coins size={24} />
+                </div>
+                <h3 style={cardTitleStyle}>💰 Earn ETH</h3>
+                <p style={cardSubtitleStyle}>
+                  Monetize your creativity
+                </p>
+              </div>
+
+              <div style={{
+                background: 'rgba(255, 255, 255, 0.05)',
+                borderRadius: '12px',
+                padding: '1rem',
+                marginBottom: '1rem'
+              }}>
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  marginBottom: '0.5rem'
+                }}>
+                  <span style={{ color: 'rgba(255, 255, 255, 0.8)', fontSize: '0.9rem' }}>Creator Share:</span>
+                  <span style={{ color: '#10b981', fontWeight: 'bold' }}>60%</span>
+                </div>
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  marginBottom: '0.5rem'
+                }}>
+                  <span style={{ color: 'rgba(255, 255, 255, 0.8)', fontSize: '0.9rem' }}>Viewer Share:</span>
+                  <span style={{ color: '#3b82f6', fontWeight: 'bold' }}>30%</span>
+                </div>
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center'
+                }}>
+                  <span style={{ color: 'rgba(255, 255, 255, 0.8)', fontSize: '0.9rem' }}>Platform Share:</span>
+                  <span style={{ color: '#f59e0b', fontWeight: 'bold' }}>10%</span>
+                </div>
+              </div>
+
+              <p style={{
+                color: 'rgba(255, 255, 255, 0.7)',
+                fontSize: '0.8rem',
+                textAlign: 'center',
+                margin: 0
+              }}>
+                Earn {DEFAULT_VIEW_REVENUE} ETH per view! 🚀
+              </p>
             </div>
           </div>
 
