@@ -1,126 +1,190 @@
-# 🪙 MemeCoinify – Web3 Meme Creation & NFT Platform
+# 🪙 MemeCoinify – Web3 Meme Creation & NFT Revenue Platform
 
-**MemeCoinify** is a Web3-enabled React application that empowers users to **create**, **mint**, and **trade memes** as NFTs on the blockchain. Built for meme lovers and crypto enthusiasts, it combines the creativity of meme-making with the power of decentralized technologies.
-
-## 🚀 Quick Start
-
-### Prerequisites
-- Node.js (v16 or higher)
-- npm or yarn
-- Web3 wallet (MetaMask, etc.)
-
-### Installation
-1. Clone the repository
-2. Install dependencies: `npm install`
-3. Create a `.env` file in the root directory with:
-   ```
-   VITE_NFT_STORAGE_TOKEN=your_nft_storage_token_here
-   VITE_WALLETCONNECT_PROJECT_ID=your_walletconnect_project_id_here
-   ```
-4. Start the development server: `npm run dev`
-
-### Environment Variables Setup
-- **VITE_NFT_STORAGE_TOKEN**: Get from [NFT.Storage](https://nft.storage/) (free)
-- **VITE_WALLETCONNECT_PROJECT_ID**: Get from [WalletConnect Cloud](https://cloud.walletconnect.com/) (free)
-
-> **Note**: If you don't have these tokens, the app will still work with mock data for demo purposes.
+**Create. Mint. Earn. Meme.**
 
 ---
 
-## 🎨 Core Features
+## 📌 Overview
 
-### 🖼 Meme Creation
-
-* Built-in meme editor with popular templates
-* Add custom top and bottom text overlays
-* Upload your own images to make personalized memes
-* Real-time meme preview using HTML5 Canvas
-
-### 🔗 NFT Minting
-
-* Integrated with the **Zora Protocol** for minting NFTs
-* Decentralized image & metadata storage using **IPFS**
-* Multi-chain support: Ethereum Mainnet, Base, and Zora Network
-
-### 🌐 Web3 Integration
-
-* Wallet connection via **RainbowKit** (MetaMask, WalletConnect, etc.)
-* Blockchain communication using **Wagmi** and **Ethers.js**
-
-### 🧑‍🤝‍🧑 Social Features
-
-* Discover community memes in the **Meme Feed**
-* Like, search, and filter memes
-* Personal **Portfolio View** to showcase your own minted NFTs
+**MemeCoinify** is a cutting-edge Web3 platform that transforms viral meme culture into a decentralized economy. Designed for meme creators and crypto enthusiasts alike, MemeCoinify enables users to create, mint, and monetize memes as NFTs—with a built-in revenue-sharing model that rewards both creators and viewers in cryptocurrency.
 
 ---
 
-## 🚀 User Flow
+## 💡 Core Value Proposition
 
-1. **Connect** your Web3 wallet
-2. **Create** a meme using templates or upload your own image
-3. **Customize** it with your own text overlays
-4. **Mint** the meme as an NFT via Zora Protocol
-5. **Share or trade** your meme NFT in the community feed
-
----
-
-## 💸 Monetization
-
-* Each meme can be assigned a random value (for demo purposes)
-* Trade meme NFTs for cryptocurrency on supported networks
-* Optional integration with **Zora's CoinV4** for meme coin creation
+* 🎨 **Built-in Meme Editor** with ready-to-use templates & real-time preview
+* ⛓️ **One-click NFT Minting** with IPFS & Zora Protocol integration
+* 💸 **Automated ETH Rewards** distributed between creators, viewers, and platform
+* 🌐 **Web3 Social Layer** featuring wallet connection, meme feed, and portfolio tracking
 
 ---
 
-## ⚙️ How Minting Works (Zora Integration FAQ)
+## ⚙️ Technical Architecture
 
-### 🧾 Does minting a meme record it on the Zora blockchain?
-
-Yes, **if properly integrated** with Zora's smart contracts. The NFT is minted and stored on-chain (Ethereum, Zora Network, etc.) via a transaction.
-
-### 🔍 How does it get recorded?
-
-1. **User creates a meme** and clicks "Mint"
-2. **Smart contract call** is made using `ethers.js` / `wagmi` to Zora's protocol
-3. **Metadata is stored** on IPFS (image + title + description)
-4. **NFT is minted**, and a transaction is recorded on-chain
-5. You can **view it on Zora's block explorer**
-
-### ✅ How to verify it's minting?
-
-* Look for transaction hashes in the frontend after minting
-* Check integration with Zora's SDK or contracts (e.g. `@zoralabs/protocol-sdk`)
-* Confirm the NFT is visible on Zora or OpenSea
-
----
-
-## 🛠 Tech Stack
-
-* **React** (Frontend)
-* **Ethers.js** + **Wagmi** (Blockchain communication)
-* **RainbowKit** (Wallet UI)
-* **Zora Protocol** (NFT & Coin Minting)
-* **IPFS** (Decentralized media storage)
-* **HTML5 Canvas** (Meme editing)
-
----
-
-## 📂 Project Structure (Optional Section)
+### 🖥️ Frontend Stack
 
 ```
-/src
-  /components     // Meme editor, feed, wallet, etc.
-  /hooks          // Web3 and custom logic
-  /utils          // IPFS, Zora helpers
-  /assets         // Templates and default memes
+React 19 + Vite + Tailwind CSS
+Component-based modular architecture
+Responsive design & performance optimization
+Web3 connectivity with Wagmi + RainbowKit
+```
+
+### 🔗 Blockchain & Backend
+
+* NFT minting via **Zora Protocol**
+* Decentralized storage with **IPFS** or **Filebase**
+* Smart contracts for **ETH revenue distribution**
+* Multi-chain deployment: Ethereum Mainnet, Base, and Zora Network
+
+### 🔁 Data Flow
+
+```
+User Interaction → Meme Editor → IPFS Upload
+→ Smart Contract Mint → NFT Listing & Revenue Triggers
+→ View Event → ETH Split (Creator, Viewer, Platform)
 ```
 
 ---
 
-## 📜 License
+## ✨ Key Features
 
-MIT License. Feel free to fork, remix, and meme on.
+### 🖼 Meme Creation Studio
+
+* Template gallery and upload support
+* Text overlays with real-time canvas preview
+* Download/export capability
+
+### 🔗 NFT Minting Infrastructure
+
+* IPFS-based metadata storage
+* Seamless one-click minting with Zora Protocol
+* Real-time transaction status and blockchain explorer support
+* Marketplace visibility via Zora & OpenSea
+
+### 💰 Revenue Sharing System
+
+* Automatic ETH rewards per meme view
+* **60/30/10 split**: Creator / Viewer / Platform
+* Per-meme analytics and earning dashboard
+* Smart contract-based distribution for transparency
+
+### 🌍 Web3 & Social Ecosystem
+
+* Wallet connection via MetaMask, RainbowKit
+* Public meme feed with like, search & filter functionality
+* Personal NFT portfolio with earnings tracking
+* Optional **meme coin** creation using Zora CoinV4
 
 ---
 
+## 💸 Revenue Model
+
+### 📈 ETH Distribution (Per Meme View)
+
+```
+Total: 0.001 ETH
+├── 60% → Creator (0.0006 ETH)
+├── 30% → Viewer (0.0003 ETH)
+└── 10% → Platform (0.0001 ETH)
+```
+
+### 🔁 Revenue Streams
+
+1. Meme minting and trading
+2. Community engagement and viewing
+3. Social sharing and virality
+4. Portfolio performance & viewer-based rewards
+
+---
+
+## 🧰 Tech Stack
+
+### Frontend
+
+| Technology   | Purpose               |
+| ------------ | --------------------- |
+| React 19     | UI Development        |
+| Vite         | Build Optimization    |
+| Tailwind CSS | Utility-first Styling |
+| RainbowKit   | Wallet UI Integration |
+| Wagmi        | Web3 State Management |
+
+### Web3 & Blockchain
+
+| Tool            | Function                   |
+| --------------- | -------------------------- |
+| Ethers.js       | Smart Contract Interaction |
+| Zora Protocol   | NFT & Coin Minting         |
+| IPFS / Filebase | Decentralized Storage      |
+| Ethereum, Base  | Blockchain Networks        |
+
+### Dev & Build Tools
+
+| Tool     | Purpose           |
+| -------- | ----------------- |
+| ESLint   | Code Quality      |
+| Prettier | Code Formatting   |
+| PostCSS  | CSS Preprocessing |
+
+---
+
+## 🔌 API Integration Snippets
+
+### 🧾 IPFS Upload
+
+```ts
+const { imageUrl, metadataUrl } = await uploadToIPFS(canvas, title, description);
+```
+
+### 🪙 Zora NFT Minting
+
+```ts
+const result = await zoraMint({
+  title: memeTitle,
+  description: memeDescription,
+  imageUrl: imageUrl
+});
+```
+
+### 💵 Revenue Distribution
+
+```ts
+const revenueData = handleMemeView(memeId, viewerAddress, creatorAddress);
+```
+
+---
+
+## 🔧 Configuration
+
+### Environment Setup
+
+Create a `.env` file in the root directory:
+
+```env
+# Required for production
+VITE_NFT_STORAGE_TOKEN=your_nft_storage_token
+VITE_FILEBASE_API_KEY=your_filebase_api_key
+VITE_WALLETCONNECT_PROJECT_ID=your_walletconnect_project_id
+
+# Optional
+VITE_FILEBASE_ENDPOINT=https://api.filebase.io
+VITE_FILEBASE_BUCKET=memecoinify
+```
+
+### Demo Mode
+
+If no API keys are configured, the app runs in **demo mode**:
+- ✅ All features work locally
+- ✅ Memes persist in browser localStorage
+- ✅ Demo memes are loaded automatically
+- ⚠️ No real IPFS uploads
+
+See [CONFIGURATION.md](./CONFIGURATION.md) for detailed setup instructions.
+
+## 🪪 License
+
+This project is licensed under the **MIT License**.
+Fork it. Remix it. Meme on.
+
+---

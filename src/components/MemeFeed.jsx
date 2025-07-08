@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Heart, MessageCircle, Share2, Plus, Home, Palette, Coins, TrendingUp, Eye } from 'lucide-react';
+import { Heart, MessageCircle, Share2, Plus, Home, Palette, Coins, TrendingUp, Eye, Trash2 } from 'lucide-react';
 import { useAccount } from 'wagmi';
 import { handleMemeView } from '../utils/revenueSharing';
 import { truncateAddress, formatETH } from '../utils/formatting';
 
-const MemeFeed = ({ memes: propMemes, selectedMemeId, onNavigateToEditor, onNavigateHome }) => {
+const MemeFeed = ({ memes: propMemes, selectedMemeId, onNavigateToEditor, onNavigateHome, onDeleteMeme }) => {
   const [memes, setMemes] = useState([]);
   const memeRefs = useRef({});
   const { address: walletAddress } = useAccount();
@@ -28,6 +28,13 @@ const MemeFeed = ({ memes: propMemes, selectedMemeId, onNavigateToEditor, onNavi
       return meme;
     });
     setMemes(updatedMemes);
+  };
+
+  const handleDelete = (memeId, e) => {
+    e.stopPropagation(); // Prevent triggering other click events
+    if (onDeleteMeme) {
+      onDeleteMeme(memeId);
+    }
   };
 
   // New function to handle meme viewing with revenue sharing
@@ -450,6 +457,32 @@ const MemeFeed = ({ memes: propMemes, selectedMemeId, onNavigateToEditor, onNavi
                   <p style={{...styles.value, color: '#10b981', fontSize: '0.875rem'}}>
                     💰 {formatETH(meme.earnings)} ETH earned
                   </p>
+                )}
+                {/* Delete button - only show for user's own memes */}
+                {onDeleteMeme && !meme.isDemo && (
+                  <button
+                    onClick={(e) => handleDelete(meme.id, e)}
+                    style={{
+                      background: 'rgba(239, 68, 68, 0.8)',
+                      border: 'none',
+                      borderRadius: '8px',
+                      padding: '6px 10px',
+                      color: 'white',
+                      cursor: 'pointer',
+                      fontSize: '0.75rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                      marginTop: '8px',
+                      transition: 'all 0.2s'
+                    }}
+                    onMouseOver={(e) => e.target.style.background = 'rgba(239, 68, 68, 1)'}
+                    onMouseOut={(e) => e.target.style.background = 'rgba(239, 68, 68, 0.8)'}
+                    title="Delete this meme"
+                  >
+                    <Trash2 size={12} />
+                    Delete
+                  </button>
                 )}
               </div>
             </div>

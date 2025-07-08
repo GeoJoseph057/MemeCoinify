@@ -1,23 +1,29 @@
 import { NFTStorage, File } from 'nft.storage'
+import { CONFIG, logConfigStatus } from './config'
 
-const NFT_STORAGE_TOKEN = import.meta.env.VITE_NFT_STORAGE_TOKEN
+// Log configuration status on import
+logConfigStatus()
 
-if (!NFT_STORAGE_TOKEN) {
-  console.warn('NFT_STORAGE_TOKEN not found. Please add VITE_NFT_STORAGE_TOKEN to your .env file')
-}
-
-const client = NFT_STORAGE_TOKEN ? new NFTStorage({ token: NFT_STORAGE_TOKEN }) : null
+// Initialize NFT.Storage client if token is available
+const nftStorageClient = CONFIG.NFT_STORAGE.enabled ? new NFTStorage({ token: CONFIG.NFT_STORAGE.token }) : null
 
 export async function uploadToIPFS(canvas, name, description) {
-  // If no client, use mock data immediately
-  if (!client) {
-    console.warn('NFT.Storage client not initialized. Using mock IPFS URL for demo purposes')
+  // Try Filebase first (sponsor tech), then NFT.Storage, then fallback to demo
+  if (CONFIG.FILEBASE.enabled) {
+    return await uploadToFilebase(canvas, name, description);
+  } else if (CONFIG.NFT_STORAGE.enabled && nftStorageClient) {
+    return await uploadToNFTStorage(canvas, name, description);
+  } else {
+    console.warn('No IPFS storage configured. Using demo mode with local data URLs');
     return {
       imageUrl: canvas.toDataURL(),
-      metadataUrl: 'mock-metadata-url'
-    }
+      metadataUrl: 'demo-metadata-url',
+      isDemo: true
+    };
   }
+}
 
+async function uploadToNFTStorage(canvas, name, description) {
   try {
     // Convert canvas to blob
     const blob = await new Promise(resolve => {
@@ -25,7 +31,7 @@ export async function uploadToIPFS(canvas, name, description) {
     })
 
     // Create metadata
-    const metadata = await client.store({
+    const metadata = await nftStorageClient.store({
       name,
       description,
       image: new File([blob], `${name}.png`, { type: 'image/png' }),
@@ -37,15 +43,59 @@ export async function uploadToIPFS(canvas, name, description) {
 
     return {
       imageUrl: `https://ipfs.io/ipfs/${metadata.data.image.pathname.slice(7)}`,
-      metadataUrl: `https://ipfs.io/ipfs/${metadata.ipnft}`
+      metadataUrl: `https://ipfs.io/ipfs/${metadata.ipnft}`,
+      provider: 'nft-storage'
     }
   } catch (error) {
-    console.error('IPFS upload failed:', error)
-    console.warn('Using mock IPFS URL for demo purposes')
+    console.error('NFT.Storage upload failed:', error)
+    throw error;
+  }
+}
+
+async function uploadToFilebase(canvas, name, _description) {
+  try {
+    // Convert canvas to blob
+    const blob = await new Promise(resolve => {
+      canvas.toBlob(resolve, 'image/png')
+    })
+
+    // Create form data for Filebase upload
+    const formData = new FormData();
+    formData.append('file', blob, `${name}.png`);
+
+    // Upload to Filebase using S3-compatible API
+    const response = await fetch(`${CONFIG.FILEBASE.endpoint}/s3/${CONFIG.FILEBASE.bucket}/${name}.png`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${CONFIG.FILEBASE.apiKey}`,
+        'Content-Type': 'image/png'
+      },
+      body: blob
+    });
+
+    if (!response.ok) {
+      throw new Error(`Filebase upload failed: ${response.statusText}`);
+    }
+
+    // Get the IPFS hash from response headers
+    const ipfsHash = response.headers.get('x-amz-meta-ipfs-hash') ||
+                    response.headers.get('x-filebase-ipfs-hash') ||
+                    'demo-hash';
 
     return {
-      imageUrl: canvas.toDataURL(),
-      metadataUrl: 'mock-metadata-url'
+      imageUrl: `https://ipfs.filebase.io/ipfs/${ipfsHash}`,
+      metadataUrl: `https://ipfs.filebase.io/ipfs/${ipfsHash}`,
+      provider: 'filebase',
+      cid: ipfsHash
     }
+  } catch (error) {
+    console.error('Filebase upload failed:', error)
+    // Fallback to demo mode if Filebase fails
+    return {
+      imageUrl: canvas.toDataURL(),
+      metadataUrl: 'demo-metadata-url',
+      provider: 'demo',
+      isDemo: true
+    };
   }
 }

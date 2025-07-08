@@ -4,6 +4,7 @@ import { useAccount } from 'wagmi'
 import WalletConnect from './components/WalletConnect'
 import MemeEditor from './components/MemeEditor'
 import MemeFeed from './components/MemeFeed'
+import { loadMemes, saveMemes, addMeme, deleteMeme, getDemoMemes } from './utils/storage'
 
 import './App.css'
 
@@ -303,11 +304,32 @@ function App() {
   const [activeFilter, setActiveFilter] = useState('recent')
   const [memes, setMemes] = useState([])
   const [selectedMemeId, setSelectedMemeId] = useState(null)
-  const { address: walletAddress } = useAccount()
+
+
+  // Load memes from localStorage on component mount
+  useEffect(() => {
+    const savedMemes = loadMemes()
+    if (savedMemes.length === 0) {
+      // Load demo memes if no saved memes exist
+      const demoMemes = getDemoMemes()
+      setMemes(demoMemes)
+      saveMemes(demoMemes)
+    } else {
+      setMemes(savedMemes)
+    }
+  }, [])
+
+  // Save memes to localStorage whenever memes state changes
+  useEffect(() => {
+    if (memes.length > 0) {
+      saveMemes(memes)
+    }
+  }, [memes])
 
   const handleMemeCreated = (newMeme) => {
     const updatedMemes = [newMeme, ...memes]
     setMemes(updatedMemes)
+    addMeme(newMeme) // Also save to localStorage immediately
     setCurrentRoute('feed') // Navigate to feed after creating
     setSelectedMemeId(newMeme.id)
   }
@@ -323,6 +345,17 @@ function App() {
   const handleMemeClick = (memeId) => {
     setSelectedMemeId(memeId)
     setCurrentRoute('feed')
+  }
+
+  const handleMemeDelete = (memeId) => {
+    if (window.confirm('Are you sure you want to delete this meme? This action cannot be undone.')) {
+      const success = deleteMeme(memeId);
+      if (success) {
+        const updatedMemes = memes.filter(meme => meme.id !== memeId);
+        setMemes(updatedMemes);
+        setSelectedMemeId(null);
+      }
+    }
   }
 
 
@@ -435,6 +468,7 @@ function App() {
               selectedMemeId={selectedMemeId}
               onNavigateToEditor={() => navigate('create')}
               onNavigateHome={() => navigate('home')}
+              onDeleteMeme={handleMemeDelete}
             />
           </>
         )
@@ -576,6 +610,7 @@ function App() {
                   memes={memes}
                   onNavigateToEditor={() => navigate('create')}
                   onNavigateHome={() => navigate('home')}
+                  onDeleteMeme={handleMemeDelete}
                 />
               </div>
             )}

@@ -12,10 +12,11 @@ import { WagmiProvider } from 'wagmi'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { http } from 'viem'
 import { SUPPORTED_CHAINS } from './utils/constants'
+import { CONFIG } from './utils/config'
 
 const config = getDefaultConfig({
   appName: 'MemeCoinify',
-  projectId: import.meta.env.VITE_WALLETCONNECT_PROJECT_ID,
+  projectId: CONFIG.WALLETCONNECT.projectId,
   chains: SUPPORTED_CHAINS,
   transports: SUPPORTED_CHAINS.reduce((obj, chain) => {
     obj[chain.id] = http()
