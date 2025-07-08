@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 # 🪙 MemeCoinify – Web3 Meme Creation & NFT Revenue Platform
 
+=======
+
+# 🪙 MemeCoinify – Web3 Meme Creation & NFT Revenue Platform
+
+>>>>>>> b4f4da2a13df7af4b69610d0d4a3231dbd11f791
 **Create. Mint. Earn. Meme.**
 
 ---
@@ -24,10 +30,17 @@
 ### 🖥️ Frontend Stack
 
 ```
+<<<<<<< HEAD
 React 19 + Vite + Tailwind CSS
 Component-based modular architecture
 Responsive design & performance optimization
 Web3 connectivity with Wagmi + RainbowKit
+=======
+React 19 + Vite + Tailwind CSS  
+Component-based modular architecture  
+Responsive design & performance optimization  
+Web3 connectivity with Wagmi + RainbowKit  
+>>>>>>> b4f4da2a13df7af4b69610d0d4a3231dbd11f791
 ```
 
 ### 🔗 Blockchain & Backend
@@ -40,8 +53,13 @@ Web3 connectivity with Wagmi + RainbowKit
 ### 🔁 Data Flow
 
 ```
+<<<<<<< HEAD
 User Interaction → Meme Editor → IPFS Upload
 → Smart Contract Mint → NFT Listing & Revenue Triggers
+=======
+User Interaction → Meme Editor → IPFS Upload  
+→ Smart Contract Mint → NFT Listing & Revenue Triggers  
+>>>>>>> b4f4da2a13df7af4b69610d0d4a3231dbd11f791
 → View Event → ETH Split (Creator, Viewer, Platform)
 ```
 
@@ -155,6 +173,7 @@ const revenueData = handleMemeView(memeId, viewerAddress, creatorAddress);
 
 ---
 
+<<<<<<< HEAD
 ## 🔧 Configuration
 
 ### Environment Setup
@@ -182,6 +201,8 @@ If no API keys are configured, the app runs in **demo mode**:
 
 See [CONFIGURATION.md](./CONFIGURATION.md) for detailed setup instructions.
 
+=======
+>>>>>>> b4f4da2a13df7af4b69610d0d4a3231dbd11f791
 ## 🪪 License
 
 This project is licensed under the **MIT License**.
